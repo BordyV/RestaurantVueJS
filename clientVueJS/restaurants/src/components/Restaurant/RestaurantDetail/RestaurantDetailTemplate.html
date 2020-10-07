@@ -3,8 +3,8 @@
         <md-button class="md-dense md-raised md-primary">Retour </md-button>
     </router-link>
 
-    <div style="height: 350px;" v-if="restaurant">
-            <div class="info" style="height: 15%">
+    <!-- <div style="height: 350px; width: 300px;" v-if="restaurant">
+            <div class="info" style="height: 15%, width: 15%;">
               <span>Center: {{ center }}</span>
               <span>Zoom: {{ zoom }}</span>
               <span>Bounds: {{ bounds }}</span>
@@ -19,9 +19,8 @@
             >
               <l-tile-layer :url="url"></l-tile-layer>
               <l-marker :lat-lng="LMarker"></l-marker>  
-              <l-marker :lat-lng="markerLatLng"></l-marker>
             </l-map>
-    </div>
+    </div> -->
 
 
     <md-card class="md-card-example" v-if="restaurant">
@@ -39,6 +38,25 @@
             </md-card-header>
 
             <md-card-content>
+                <div style="height: 350px; width: 300px;" v-if="restaurant">
+                    <!-- <div class="info" style="height: 15%, width: 15%;">
+                      <span>Center: {{ center }}</span>
+                      <span>Zoom: {{ zoom }}</span>
+                      <span>Bounds: {{ bounds }}</span>
+                    </div> -->
+                    <l-map
+                      style="height: 80%; width: 100%"
+                      :zoom="zoom"
+                      :center="center"
+                      @update:zoom="zoomUpdated"
+                      @update:center="centerUpdated"
+                      @update:bounds="boundsUpdated"
+                    >
+                      <l-tile-layer :url="url"></l-tile-layer>
+                      <l-marker :lat-lng="LMarker"></l-marker>  
+                    </l-map>
+            </div>
+        
                 <b>{{restaurant.name}}</b> ont une cuisine type : <b>{{restaurant.cuisine}}</b>.
                 <br> Il possède une note moyenne de : {{ scoreMoyen | round }}.
                 <span>(Plus la note est proche du 0 meilleur est le restaurant).</span>

@@ -19,16 +19,15 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker,
+    LMarker
   },
   data: () => {
     return {
       restaurant: undefined,
       scoreMoyen: 0,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      zoom: 7,
+      zoom: 13,
       center: null,
-      markerLatLng: [47.313220, -1.319482],
       LMarker: latLng(47.41322, -1.219482),
       bounds: null,
       showProgressSpinner: false,
@@ -38,7 +37,7 @@ export default {
     if(this.id)
     {
       this.getRestaurantsFromServerById(this.id, () => {
-        this.LMarker = latLng(this.restaurant.address.coord[0], this.restaurant.address.coord[1]);
+        this.LMarker = latLng(this.restaurant.address.coord[1], this.restaurant.address.coord[0]);
         this.center = this.LMarker;
       });
     }

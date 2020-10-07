@@ -1,12 +1,21 @@
+//vue default
 import Vue from 'vue'
-import VueMaterial from 'vue-material'
 import VueRouter from 'vue-router'
+
+//vue material
+import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+
+//component pour routes
 import RestaurantDetail from './components/Restaurant/RestaurantDetail/RestaurantDetail'
 import RestaurantAccueil from './components/Restaurant/RestaurantAccueil'
-// import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+
+//leaflet bibliotheque
 import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
+import 'leaflet-defaulticon-compatibility';
+
 
 import App from './App.vue'
 
@@ -14,9 +23,6 @@ Vue.config.productionTip = false
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
-// Vue.component('l-map', LMap);
-// Vue.component('l-tile-layer', LTileLayer);
-// Vue.component('l-marker', LMarker);
 
 const router = new VueRouter({
   routes:  [
