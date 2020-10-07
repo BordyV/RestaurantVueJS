@@ -112,6 +112,9 @@ export default {
           console.log(responsePost.status);
           if (responsePost.status == 200) {
             this.modificationReussi = true;
+            responsePost.json().then((data) => {
+            console.log(data.msg);
+          });
           }
         })
         .catch((err) => {
@@ -122,6 +125,7 @@ export default {
         });
     },
     afficherModif(restaurantMod) {
+      debugger
       this.restaurantModif = restaurantMod;
       this.modificationTemplate = true;
     },

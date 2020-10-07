@@ -2,7 +2,7 @@
     <RestaurantAjout />
     <!--TABLE ANGULAR MATERIAL-->
 
-    <md-table md-card>
+    <md-table v-model="restaurants">
         <md-table-toolbar>
             <h1 class="md-title">Nombre de restaurants : {{ restaurants.length}}/{{nbTotalRestaurants}} page:
                 {{pagination +1}}</h1>
@@ -10,35 +10,31 @@
                 <md-input placeholder="Recherche nom ou cuisine..." v-model="valueRecherche" @change="searchOnTable" />
             </md-field>
         </md-table-toolbar>
+
+        <!-- SI LE TABLEAU EST VIDE-->
+        <md-table-empty-state
+        md-label="Pas de restaurants trouvés"
+        :md-description="`Pas de restaurants trouvés pour cette recherche.`">
+      </md-table-empty-state>
+
         <!--HEADER DU TABLEAU-->
-        <md-table-row>
-            <md-table-head>Nom</md-table-head>
-            <md-table-head>Cuisine</md-table-head>
-            <md-table-head class="actionRestaurant">Supprimer</md-table-head>
-            <md-table-head class="actionRestaurant">Modifier</md-table-head>
-            <md-table-head class="actionRestaurant">Voir le détail</md-table-head>
-        </md-table-row>
-
-
-        <md-table-row v-for="r in restaurants" :key="r._id">
-            <md-table-cell>
-                {{r.name}}
+        <md-table-row slot="md-table-row" slot-scope="{ item }">
+            <md-table-cell md-label="Nom">{{ item.name }}</md-table-cell>
+            <md-table-cell md-label="Cuisine">{{ item.cuisine }}</md-table-cell>
+            <md-table-cell md-label="Supprimer">
+                <md-icon class="colonneDelete" @click.native="supprimerRestaurant(item._id)">delete</md-icon>
             </md-table-cell>
-            <md-table-cell>
-                {{r.cuisine}}
+            <md-table-cell md-label="Modifier">
+                <md-icon class="colonneModifier" @click.native="afficherModif(item)">edit</md-icon>
             </md-table-cell>
-            <md-table-cell>
-                <md-icon class="colonneDelete" @click.native="supprimerRestaurant(r._id)">delete</md-icon>
-            </md-table-cell>
-            <md-table-cell>
-                <md-icon class="colonneModifier" @click.native="afficherModif(r)">edit</md-icon>
-            </md-table-cell>
-            <md-table-cell>
-                <router-link :to="{ name: 'detail', params: {id: r._id } }">
+            <md-table-cell md-label="Voir le détail">
+                <router-link :to="{ name: 'detail', params: {id: item._id } }">
                     <md-icon class="colonneDetail">loop</md-icon>
                 </router-link>
             </md-table-cell>
-        </md-table-row>
+
+          </md-table-row>
+
     </md-table>
 
     <md-button :disabled="pagination == 0" class="md-dense md-raised md-primary" v-on:click="goToRestaurantGauche()"> &lt; </md-button>

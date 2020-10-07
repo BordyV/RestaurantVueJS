@@ -20,4 +20,7 @@ body {
   margin: 5%;
   margin-top: 1%;
 }
+a:hover {
+  cursor: pointer;
+}
 </style>
