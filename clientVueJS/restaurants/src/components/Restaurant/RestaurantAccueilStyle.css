@@ -1,0 +1,35 @@
+.md-progress-spinner {
+    margin-left: 46%;
+    position: relative;
+    z-index: 16;
+    top: -350px;
+}
+#overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+  
+  .colonneDelete:hover,
+  .colonneModifier:hover,
+  .colonneDetail:hover {
+    cursor: pointer;
+  }
+  .actionRestaurant
+  {
+    width: 10%;
+
+  }
+  #sliderNbRestaurants {
+    margin-top: 1%;
+  }
+  #templateModifier .md-dialog-title {
+    width: 1000px;
+  }

@@ -1,0 +1,113 @@
+<div id="restaurant">
+    <RestaurantAjout />
+    <!--TABLE ANGULAR MATERIAL-->
+
+    <md-table md-card>
+        <md-table-toolbar>
+            <h1 class="md-title">Nombre de restaurants : {{ restaurants.length}}/{{nbTotalRestaurants}} page:
+                {{pagination +1}}</h1>
+            <md-field md-clearable class="md-toolbar-section-end">
+                <md-input placeholder="Recherche nom ou cuisine..." v-model="valueRecherche" @change="searchOnTable" />
+            </md-field>
+        </md-table-toolbar>
+        <!--HEADER DU TABLEAU-->
+        <md-table-row>
+            <md-table-head>Nom</md-table-head>
+            <md-table-head>Cuisine</md-table-head>
+            <md-table-head class="actionRestaurant">Supprimer</md-table-head>
+            <md-table-head class="actionRestaurant">Modifier</md-table-head>
+            <md-table-head class="actionRestaurant">Voir le détail</md-table-head>
+        </md-table-row>
+
+
+        <md-table-row v-for="r in restaurants" :key="r._id">
+            <md-table-cell>
+                {{r.name}}
+            </md-table-cell>
+            <md-table-cell>
+                {{r.cuisine}}
+            </md-table-cell>
+            <md-table-cell>
+                <md-icon class="colonneDelete" @click.native="supprimerRestaurant(r._id)">delete</md-icon>
+            </md-table-cell>
+            <md-table-cell>
+                <md-icon class="colonneModifier" @click.native="afficherModif(r)">edit</md-icon>
+            </md-table-cell>
+            <md-table-cell>
+                <router-link :to="{ name: 'detail', params: {id: r._id } }">
+                    <md-icon class="colonneDetail">loop</md-icon>
+                </router-link>
+            </md-table-cell>
+        </md-table-row>
+    </md-table>
+
+    <md-button :disabled="pagination == 0" class="md-dense md-raised md-primary" v-on:click="goToRestaurantGauche()"> &lt; </md-button>
+    <md-button :disabled="!(pagination < (Math.round(nbTotalRestaurants / pageSize)))"
+    class="md-dense md-raised md-primary" v-on:click="goToRestaurantDroit()"> > </md-button>
+    <input id="sliderNbRestaurants" type="range" min="5" max="100" step="5" v-model="pageSize"
+        @change="getRestaurantsFromServer(pagination, pageSize, valueRecherche, () => {})"> {{pageSize}} Restaurants par page
+
+
+    <!--DEBUT PROGRESS SPINNER-->
+    <template v-if="showProgressSpinner">
+        <div>
+            <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+        </div>
+    </template>
+
+    <!--DIV POUR LE BLACK SCREEN PROGRESS SPINNER-->
+    <div id="overlay"></div>
+    <!--FIN PROGRESS SPINNER-->
+
+    <!--DEBUT Boite de dialog lors de la suppression d'un restaurant-->
+    <template id="templateSuppression">
+        <div>
+            <md-dialog-alert :md-active.sync="suppressionReussi" md-title="Félicitation !"
+                md-content="Le restaurant a été supprimé de la base de données." />
+        </div>
+    </template>
+    <!--FIN Boite de dialog lors de la suppression d'un restaurant-->
+
+    <!--DEBUT Boite de dialog lors de la réussite de la modif d'un restaurant-->
+    <template id="templateModificationReussi">
+        <div>
+            <md-dialog-alert :md-active.sync="modificationReussi" md-title="Félicitation !"
+                md-content="Le restaurant a été modifié avec succés." />
+        </div>
+    </template>
+    <!--FIN Boite de dialog lors de la réussite de la modification d'un restaurant-->
+
+    <!--DEBUT Boite de dialog lors de la modif d'un restaurant-->
+    <template>
+        <div>
+
+            <md-dialog :md-active.sync="modificationTemplate" id="templateModifier">
+                <md-dialog-title>Modifier le restaurant : {{ restaurantModif.name }}</md-dialog-title>
+                <form @submit.prevent="modifierRestaurant">
+                    <md-dialog-content>
+                        <md-field :class="{ 'md-invalid': !nameValide }" class="md-layout-item">
+                            <label>Nom</label>
+                            <md-input name="name" id="nameModif" v-model="restaurantModif.name" required>
+                            </md-input>
+                            <span class="md-error">Le nom n'est pas valide il doit être supérieur à 2 caractères</span>
+                        </md-field>
+                        <md-field :class="{ 'md-invalid': !cuisineValide }" class="md-layout-item">
+                            <label>Cuisine</label>
+                            <md-input name="cuisine" id="cuisineModif" v-model="restaurantModif.cuisine" required>
+                            </md-input>
+                            <span class="md-error">La cuisine n'est pas valide, elle doit être supérieur à 2
+                                caractères</span>
+                        </md-field>
+                    </md-dialog-content>
+                    <md-dialog-actions>
+                        <md-button class="md-primary" @click="modificationTemplate = false">Annuler</md-button>
+                        <md-button class="md-primary" type="submit">Modifier</md-button>
+                    </md-dialog-actions>
+                </form>
+            </md-dialog>
+
+        </div>
+    </template>
+    <!--FIN Boite de dialog lors de l'ajout d'un restaurant-->
+
+</div>

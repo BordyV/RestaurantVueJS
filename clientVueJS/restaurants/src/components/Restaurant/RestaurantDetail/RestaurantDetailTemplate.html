@@ -1,0 +1,89 @@
+<div id="RestaurantDetail">
+    <router-link to="/">
+        <md-button class="md-dense md-raised md-primary">Retour </md-button>
+    </router-link>
+
+    <div style="height: 350px;" v-if="restaurant">
+            <div class="info" style="height: 15%">
+              <span>Center: {{ center }}</span>
+              <span>Zoom: {{ zoom }}</span>
+              <span>Bounds: {{ bounds }}</span>
+            </div>
+            <l-map
+              style="height: 80%; width: 100%"
+              :zoom="zoom"
+              :center="center"
+              @update:zoom="zoomUpdated"
+              @update:center="centerUpdated"
+              @update:bounds="boundsUpdated"
+            >
+              <l-tile-layer :url="url"></l-tile-layer>
+              <l-marker :lat-lng="LMarker"></l-marker>  
+              <l-marker :lat-lng="markerLatLng"></l-marker>
+            </l-map>
+    </div>
+
+
+    <md-card class="md-card-example" v-if="restaurant">
+        <md-card-area md-inset>
+            <md-card-media>
+                <img src="./../../../assets/accosato.jpg" alt="Restaurant" id="imageRestaurantCard">
+            </md-card-media>
+            <md-card-header>
+                <h2 class="md-title">{{restaurant.name}}</h2>
+                <div class="md-subhead" v-if="restaurant.address && restaurant.borough">
+                    <md-icon>location_on</md-icon>
+                    <span>{{restaurant.address.building + " " + restaurant.address.street
+                        + ", " + restaurant.address.zipcode + " " + restaurant.borough }}</span>
+                </div>
+            </md-card-header>
+
+            <md-card-content>
+                <b>{{restaurant.name}}</b> ont une cuisine type : <b>{{restaurant.cuisine}}</b>.
+                <br> Il possède une note moyenne de : {{ scoreMoyen | round }}.
+                <span>(Plus la note est proche du 0 meilleur est le restaurant).</span>
+            </md-card-content>
+        </md-card-area>
+        
+
+        <md-card-content>
+            <h3 class="md-subheading">Menu : </h3>
+            <div class="card-menu">
+                <md-icon>restaurant_menu</md-icon>
+                <div>
+                    <li>la on affiche le menu mais on a pas de donnée pas de change</li>
+                </div>
+            </div>
+        </md-card-content>
+
+        <md-card-content>
+            <h3 class="md-subheading">Reservation Disponible: </h3>
+            <div class="card-reservation">
+                <md-icon>access_time</md-icon>
+                <div class="md-button-group">
+                    <md-button>12:30</md-button>
+                    <md-button>19:30PM</md-button>
+                    <md-button>20:00PM</md-button>
+                </div>
+            </div>
+        </md-card-content>
+
+        <md-card-actions>
+            <md-button class="md-primary">Reserver</md-button>
+        </md-card-actions>
+    </md-card>
+
+
+      
+  <!--DEBUT PROGRESS SPINNER-->
+  <template v-if="showProgressSpinner">
+    <div>
+        <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+    </div>
+  </template>
+
+  <!--DIV POUR LE BLACK SCREEN PROGRESS SPINNER-->
+  <div id="overlay"></div>
+  <!--FIN PROGRESS SPINNER-->
+
+</div>

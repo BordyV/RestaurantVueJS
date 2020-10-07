@@ -1,0 +1,28 @@
+<div id="RestaurantAjout">
+    <form class="md-layout" @submit.prevent="ajouterRestaurant">
+        <md-field :class="{ 'md-invalid': !nameValide }" class="md-layout-item">
+            <label>Nom</label>
+            <md-input name="name" id="name" v-model="name" required>
+            </md-input>
+            <span class="md-error">Le nom n'est pas valide il doit être supérieur à 2 caractères</span>
+        </md-field>
+        <md-field :class="{ 'md-invalid': !cuisineValide }" class="md-layout-item">
+            <label>Cuisine</label>
+            <md-input name="cuisine" id="cuisine" v-model="cuisine" required></md-input>
+            <span class="md-error">La cuisine n'est pas valide, elle doit être supérieur à 2 caractères</span>
+        </md-field>
+        <md-button class="md-raised md-accent" type="reset">RESET</md-button>
+        <md-button class="md-raised md-primary" type="submit">Ajouter</md-button>
+    </form>
+    <br>
+
+    <!--DEBUT Boite de dialog lors de l'ajout d'un restaurant-->
+    <template id="templateAjout">
+        <div>
+            <md-dialog-alert :md-active.sync="ajoutReussi" md-title="Félicitation !"
+                md-content="Le restaurant a été ajouté à la base de données." />
+        </div>
+    </template>
+    <!--FIN Boite de dialog lors de l'ajout d'un restaurant-->
+
+</div>
