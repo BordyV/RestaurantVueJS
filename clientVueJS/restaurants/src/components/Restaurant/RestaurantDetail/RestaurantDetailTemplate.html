@@ -23,7 +23,7 @@
     </div> -->
 
 
-    <md-card class="md-card-example" v-if="restaurant">
+    <md-card v-if="restaurant">
         <md-card-area md-inset>
             <md-card-media>
                 <img src="./../../../assets/accosato.jpg" alt="Restaurant" id="imageRestaurantCard">
@@ -31,31 +31,16 @@
             <md-card-header>
                 <h2 class="md-title">{{restaurant.name}}</h2>
                 <div class="md-subhead" v-if="restaurant.address && restaurant.borough">
+                    <a @click="afficherCarte = true">
                     <md-icon>location_on</md-icon>
                     <span>{{restaurant.address.building + " " + restaurant.address.street
                         + ", " + restaurant.address.zipcode + " " + restaurant.borough }}</span>
+                    </a>
                 </div>
             </md-card-header>
 
             <md-card-content>
-                <div style="height: 350px; width: 300px;" v-if="restaurant">
-                    <!-- <div class="info" style="height: 15%, width: 15%;">
-                      <span>Center: {{ center }}</span>
-                      <span>Zoom: {{ zoom }}</span>
-                      <span>Bounds: {{ bounds }}</span>
-                    </div> -->
-                    <l-map
-                      style="height: 80%; width: 100%"
-                      :zoom="zoom"
-                      :center="center"
-                      @update:zoom="zoomUpdated"
-                      @update:center="centerUpdated"
-                      @update:bounds="boundsUpdated"
-                    >
-                      <l-tile-layer :url="url"></l-tile-layer>
-                      <l-marker :lat-lng="LMarker"></l-marker>  
-                    </l-map>
-            </div>
+                
         
                 <b>{{restaurant.name}}</b> ont une cuisine type : <b>{{restaurant.cuisine}}</b>.
                 <br> Il possède une note moyenne de : {{ scoreMoyen | round }}.
@@ -92,6 +77,36 @@
     </md-card>
 
 
+
+    <md-dialog :md-active.sync="afficherCarte" id="adresseCarte"  v-if="restaurant">
+        <md-dialog-title>  <md-icon>location_on</md-icon>
+            <span>{{restaurant.address.building + " " + restaurant.address.street
+                + ", " + restaurant.address.zipcode + " " + restaurant.borough }}</span>
+        </md-dialog-title>
+            <md-dialog-content>
+                <div style="height: 350px; width: 600px;" v-if="restaurant">
+                    <!-- <div class="info" style="height: 15%, width: 15%;">
+                      <span>Center: {{ center }}</span>
+                      <span>Zoom: {{ zoom }}</span>
+                      <span>Bounds: {{ bounds }}</span>
+                    </div> -->
+                    <l-map
+                      style="height: 100%; width: 100%"
+                      :zoom="zoom"
+                      :center="center"
+                      @update:zoom="zoomUpdated"
+                      @update:center="centerUpdated"
+                      @update:bounds="boundsUpdated"
+                    >
+                      <l-tile-layer :url="url"></l-tile-layer>
+                      <l-marker :lat-lng="LMarker"></l-marker>  
+                    </l-map>
+            </div>
+            </md-dialog-content>
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="afficherCarte = false">Fermer</md-button>
+            </md-dialog-actions>
+    </md-dialog>
       
   <!--DEBUT PROGRESS SPINNER-->
   <template v-if="showProgressSpinner">

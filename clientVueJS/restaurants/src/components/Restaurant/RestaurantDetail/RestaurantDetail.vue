@@ -31,6 +31,7 @@ export default {
       LMarker: latLng(47.41322, -1.219482),
       bounds: null,
       showProgressSpinner: false,
+      afficherCarte : false,
     };
   },
   mounted() {
