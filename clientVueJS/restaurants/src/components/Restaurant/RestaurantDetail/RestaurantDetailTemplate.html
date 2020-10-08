@@ -32,22 +32,22 @@
                 <h2 class="md-title">{{restaurant.name}}</h2>
                 <div class="md-subhead" v-if="restaurant.address && restaurant.borough">
                     <a @click="afficherCarte = true">
-                    <md-icon>location_on</md-icon>
-                    <span>{{restaurant.address.building + " " + restaurant.address.street
+                        <md-icon>location_on</md-icon>
+                        <span>{{restaurant.address.building + " " + restaurant.address.street
                         + ", " + restaurant.address.zipcode + " " + restaurant.borough }}</span>
                     </a>
                 </div>
             </md-card-header>
 
             <md-card-content>
-                
-        
+                <star-rating v-model="rating" v-bind:star-size="20" :read-only="true" :show-rating="false"
+                    :increment="0.5">
+                </star-rating>
                 <b>{{restaurant.name}}</b> ont une cuisine type : <b>{{restaurant.cuisine}}</b>.
-                <br> Il possède une note moyenne de : {{ scoreMoyen | round }}.
-                <span>(Plus la note est proche du 0 meilleur est le restaurant).</span>
+
             </md-card-content>
         </md-card-area>
-        
+
 
         <md-card-content>
             <h3 class="md-subheading">Menu : </h3>
@@ -78,45 +78,40 @@
 
 
 
-    <md-dialog :md-active.sync="afficherCarte" id="adresseCarte"  v-if="restaurant">
-        <md-dialog-title>  <md-icon>location_on</md-icon>
+    <md-dialog :md-active.sync="afficherCarte" id="adresseCarte" v-if="restaurant">
+        <md-dialog-title>
+            <md-icon>location_on</md-icon>
             <span>{{restaurant.address.building + " " + restaurant.address.street
                 + ", " + restaurant.address.zipcode + " " + restaurant.borough }}</span>
         </md-dialog-title>
-            <md-dialog-content>
-                <div style="height: 350px; width: 600px;" v-if="restaurant">
-                    <!-- <div class="info" style="height: 15%, width: 15%;">
+        <md-dialog-content>
+            <div style="height: 350px; width: 600px;" v-if="restaurant">
+                <!-- <div class="info" style="height: 15%, width: 15%;">
                       <span>Center: {{ center }}</span>
                       <span>Zoom: {{ zoom }}</span>
                       <span>Bounds: {{ bounds }}</span>
                     </div> -->
-                    <l-map
-                      style="height: 100%; width: 100%"
-                      :zoom="zoom"
-                      :center="center"
-                      @update:zoom="zoomUpdated"
-                      @update:center="centerUpdated"
-                      @update:bounds="boundsUpdated"
-                    >
-                      <l-tile-layer :url="url"></l-tile-layer>
-                      <l-marker :lat-lng="LMarker"></l-marker>  
-                    </l-map>
+                <l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" @update:zoom="zoomUpdated"
+                    @update:center="centerUpdated" @update:bounds="boundsUpdated">
+                    <l-tile-layer :url="url"></l-tile-layer>
+                    <l-marker :lat-lng="LMarker"></l-marker>
+                </l-map>
             </div>
-            </md-dialog-content>
-            <md-dialog-actions>
-                <md-button class="md-primary" @click="afficherCarte = false">Fermer</md-button>
-            </md-dialog-actions>
+        </md-dialog-content>
+        <md-dialog-actions>
+            <md-button class="md-primary" @click="afficherCarte = false">Fermer</md-button>
+        </md-dialog-actions>
     </md-dialog>
-      
-  <!--DEBUT PROGRESS SPINNER-->
-  <template v-if="showProgressSpinner">
-    <div>
-        <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
-    </div>
-  </template>
 
-  <!--DIV POUR LE BLACK SCREEN PROGRESS SPINNER-->
-  <div id="overlay"></div>
-  <!--FIN PROGRESS SPINNER-->
+    <!--DEBUT PROGRESS SPINNER-->
+    <template v-if="showProgressSpinner">
+        <div>
+            <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
+        </div>
+    </template>
+
+    <!--DIV POUR LE BLACK SCREEN PROGRESS SPINNER-->
+    <div id="overlay"></div>
+    <!--FIN PROGRESS SPINNER-->
 
 </div>

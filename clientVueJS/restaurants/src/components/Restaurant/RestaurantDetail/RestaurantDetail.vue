@@ -7,6 +7,8 @@
 <script>
 import { latLng } from "leaflet";
 import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
+import StarRating from 'vue-star-rating';
+
 
 export default {
   name: "RestaurantDetail",
@@ -19,12 +21,14 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker
+    LMarker,
+    StarRating
   },
   data: () => {
     return {
       restaurant: undefined,
       scoreMoyen: 0,
+      rating: 0,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 13,
       center: null,
@@ -40,6 +44,7 @@ export default {
       this.getRestaurantsFromServerById(this.id, () => {
         this.LMarker = latLng(this.restaurant.address.coord[1], this.restaurant.address.coord[0]);
         this.center = this.LMarker;
+        this.calculerRatingNoteRestaurant();
       });
     }
   },
@@ -62,6 +67,22 @@ export default {
           this.cacherLeSpinner();
           alert("Une erreur est survenue lors du chargement des données");
         });
+    },
+    calculerRatingNoteRestaurant(){
+      for(let note of this.restaurant.grades)
+      {
+        this.scoreMoyen += note.score;
+      }
+      this.scoreMoyen = this.scoreMoyen / this.restaurant.grades.length;
+
+        this.rating = this.scoreMoyen <= 5 ? 5 :
+          this.scoreMoyen <= 10 ? 4.5 : 
+            this.scoreMoyen <= 15 ? 4 :
+              this.scoreMoyen <= 25 ? 3.5 :
+                this.scoreMoyen <= 35 ? 3 :
+                this.scoreMoyen <= 45 ? 2.5 :
+                this.scoreMoyen <= 55 ? 2 : 
+                  this.scoreMoyen <= 65 ? 1.5 : 1;
     },
     zoomUpdated (zoom) {
       this.zoom = zoom;
