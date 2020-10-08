@@ -1,5 +1,5 @@
 <div id="RestaurantAjout">
-    <form class="md-layout" @submit.prevent="ajouterRestaurant">
+    <form class="md-layout" @submit.prevent="ajouterRestaurant($event)">
         <md-field :class="{ 'md-invalid': !nameValide }" class="md-layout-item">
             <label>Nom</label>
             <md-input name="name" id="name" v-model="name" required>

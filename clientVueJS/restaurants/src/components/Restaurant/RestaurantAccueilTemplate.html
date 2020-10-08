@@ -79,7 +79,7 @@
 
             <md-dialog :md-active.sync="modificationTemplate" id="templateModifier">
                 <md-dialog-title>Modifier le restaurant : {{ restaurantModif.name }}</md-dialog-title>
-                <form @submit.prevent="modifierRestaurant">
+                <form @submit.prevent="modifierRestaurant($event)">
                     <md-dialog-content>
                         <md-field :class="{ 'md-invalid': !nameValide }" class="md-layout-item">
                             <label>Nom</label>
