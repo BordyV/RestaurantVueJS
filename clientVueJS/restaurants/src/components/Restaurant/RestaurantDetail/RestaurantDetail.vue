@@ -6,43 +6,44 @@
 
 <script>
 import { latLng } from "leaflet";
-import {LMap, LTileLayer, LMarker} from 'vue2-leaflet';
-import StarRating from 'vue-star-rating';
-
+import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+import StarRating from "vue-star-rating";
 
 export default {
   name: "RestaurantDetail",
-  props: ['id'],
+  props: ["id"],
   filters: {
     round: function (value) {
       return value.toFixed(2);
-    }
+    },
   },
   components: {
     LMap,
     LTileLayer,
     LMarker,
-    StarRating
+    StarRating,
   },
   data: () => {
     return {
       restaurant: undefined,
       scoreMoyen: 0,
       rating: 0,
-      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       zoom: 13,
       center: null,
       LMarker: latLng(47.41322, -1.219482),
       bounds: null,
       showProgressSpinner: false,
-      afficherCarte : false,
+      afficherCarte: false,
     };
   },
   mounted() {
-    if(this.id)
-    {
+    if (this.id) {
       this.getRestaurantsFromServerById(this.id, () => {
-        this.LMarker = latLng(this.restaurant.address.coord[1], this.restaurant.address.coord[0]);
+        this.LMarker = latLng(
+          this.restaurant.address.coord[1],
+          this.restaurant.address.coord[0]
+        );
         this.center = this.LMarker;
         this.calculerRatingNoteRestaurant();
       });
@@ -68,29 +69,41 @@ export default {
           alert("Une erreur est survenue lors du chargement des données");
         });
     },
-    calculerRatingNoteRestaurant(){
-      for(let note of this.restaurant.grades)
-      {
+    calculerRatingNoteRestaurant() {
+      //on recupere chaque score via le tableau des evaluations
+      for (let note of this.restaurant.grades) {
         this.scoreMoyen += note.score;
       }
+      //on fait la moyenne en fonction de la taille du tableau
       this.scoreMoyen = this.scoreMoyen / this.restaurant.grades.length;
 
-        this.rating = this.scoreMoyen <= 5 ? 5 :
-          this.scoreMoyen <= 10 ? 4.5 : 
-            this.scoreMoyen <= 15 ? 4 :
-              this.scoreMoyen <= 25 ? 3.5 :
-                this.scoreMoyen <= 35 ? 3 :
-                this.scoreMoyen <= 45 ? 2.5 :
-                this.scoreMoyen <= 55 ? 2 : 
-                  this.scoreMoyen <= 65 ? 1.5 : 1;
+      //condition pour avoir la note
+      this.rating =
+        this.scoreMoyen <= 5
+          ? 5
+          : this.scoreMoyen <= 10
+          ? 4.5
+          : this.scoreMoyen <= 15
+          ? 4
+          : this.scoreMoyen <= 25
+          ? 3.5
+          : this.scoreMoyen <= 35
+          ? 3
+          : this.scoreMoyen <= 45
+          ? 2.5
+          : this.scoreMoyen <= 55
+          ? 2
+          : this.scoreMoyen <= 65
+          ? 1.5
+          : 1;
     },
-    zoomUpdated (zoom) {
+    zoomUpdated(zoom) {
       this.zoom = zoom;
     },
-    centerUpdated (center) {
+    centerUpdated(center) {
       this.center = center;
     },
-    boundsUpdated (bounds) {
+    boundsUpdated(bounds) {
       this.bounds = bounds;
     },
     cacherLeSpinner() {
@@ -102,7 +115,7 @@ export default {
       this.showProgressSpinner = true;
       var overlay = document.getElementById("overlay");
       overlay.style.display = "block";
-    }, 
+    },
   },
 };
 </script>

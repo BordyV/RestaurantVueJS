@@ -13,9 +13,16 @@
 
         <!-- SI LE TABLEAU EST VIDE-->
         <md-table-empty-state
-        md-label="Pas de restaurants trouvés"
-        :md-description="`Pas de restaurants trouvés pour cette recherche.`">
+        md-rounded md-icon="cloud_download"
+        md-label="Recherche en cours..."
+        :md-description="`La recherche est en cours ne quittez pas la page`"
+        v-if="showProgressSpinner">
       </md-table-empty-state>
+      <md-table-empty-state
+      md-rounded md-icon="sentiment_dissatisfied"
+      md-label="Pas de restaurants trouvés"
+      :md-description="`Pas de restaurants trouvés pour cette recherche.`" v-else>
+    </md-table-empty-state>
 
         <!--HEADER DU TABLEAU-->
         <md-table-row slot="md-table-row" slot-scope="{ item }">
