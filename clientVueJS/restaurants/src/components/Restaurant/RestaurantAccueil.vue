@@ -125,7 +125,6 @@ export default {
         });
     },
     afficherModif(restaurantMod) {
-      debugger
       this.restaurantModif = restaurantMod;
       this.modificationTemplate = true;
     },
