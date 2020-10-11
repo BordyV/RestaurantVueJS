@@ -244,3 +244,52 @@ exports.deleteRestaurant = function(id, callback) {
 		}
 	});
 }
+
+
+var menu1 = [
+			{ entree:"Salade Tomate Moza", plat:"Pates carbonara", dessert: "tiramisu"},
+			{ entree:"Salade César", plat:"Pizza", dessert: "panacota"} 
+			];
+// "grades" : [
+// 	{ "grade" : 80, "mean" : 75, "std" : 6 },
+// 	{ "grade" : 85, "mean" : 90, "std" : 4 },
+// 	{ "grade" : 85, "mean" : 85, "std" : 6 }
+//  ]
+
+exports.AddMenuToRestaurant = function(id, callback) {
+
+	MongoClient.connect(url, function(err, client) {
+		var db = client.db(dbName);
+
+		if(!err) {
+            let myquery = { "_id": ObjectId(id)};
+	        let newvalues = { $set: {menu: menu1 } };
+
+			db.collection("restaurants")
+			.updateOne(myquery, newvalues, function(err, result) {
+	         	if(!err){
+			    	reponse = {
+		                succes : true,
+		                result: result,
+		                error : null,
+		                msg: "Modification réussie " + result
+		            };
+			   	} else {
+		            reponse = {
+		                succes : false,
+		                error : err,
+		                msg: "Problème à la modification"
+		            };
+			    }
+			    callback(reponse);
+	        });
+		} else{
+			let reponse = reponse = {
+                    	succes: false,
+                        error : err,
+                        msg:"Problème lors de la modification, erreur de connexion."
+                    };
+            callback(reponse);
+		}
+	});
+}

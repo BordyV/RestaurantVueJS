@@ -116,6 +116,22 @@ export default {
       var overlay = document.getElementById("overlay");
       overlay.style.display = "block";
     },
+    addMenuToRestaurant(){
+      alert("pourt");
+      fetch("http://localhost:80/api/restaurantsMenu/" + this.id, {
+          method: "put",
+        })
+          .then((responsePost) => {
+            console.log(responsePost.status);
+            if (responsePost.status == 200) {
+              alert("ca a amrche vavoir la bd");
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Une erreur est survenue lors de l'ajout des données");
+          });
+    },
   },
 };
 </script>

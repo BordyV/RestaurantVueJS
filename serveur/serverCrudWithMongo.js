@@ -166,3 +166,12 @@ app.delete('/api/restaurants/:id', function(req, res) {
  	});
 })
 
+// Modification d'un restaurant, ajout des menus. on fera l'update par
+// une requête http PUT, c'est le standard REST
+app.put('/api/restaurantsMenu/:id', function(req, res) {
+	var id = req.params.id;
+
+ 	mongoDBModule.AddMenuToRestaurant(id, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+});
