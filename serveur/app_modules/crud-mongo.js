@@ -389,9 +389,19 @@ exports.AddMenuToRestaurant = function (id, callback) {
 					dessert: desserts(),
 					restaurantID: restau._id
 				};
-				db.collection("menus").insertOne(document);
+
+				db.collection("menus").insertOne(document).catch(() => {
+					//le catch n'est la que pour ne pas afficher l'erreur quand quelqu'un essaie d'insèrer plusieurs fois les
+					// données dans la collections /!\ attention les opérations en cours (moins de 5sec) ne sont pas terminés
+				});
 			}).then(() => {
-				console.log("prout");
+				//si c'est une réussite on créer un index qui doit être unique merci le cours de M. Mopolo *hehehe* -> rire de M. Mopolo
+				db.collection("menus").createIndex({restaurantID:1}, { unique: true }).then(() => {
+					console.log("index restaurantID ajouté avec succès à la collection menus");
+				});
+				console.log("fin de l'ajout des menus !");
+			}).catch((err) => {
+				console.log("Erreur lors de la fin de l'ajout des menus");
 			});
 
 
