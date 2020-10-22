@@ -87,7 +87,10 @@ exports.findRestaurants = function (page, pagesize, name, callback) {
 };
 
 exports.findRestaurantById = function (id, callback) {
-	MongoClient.connect(url, function (err, client) {
+	MongoClient.connect(url,{
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+  }, function (err, client) {
 		var db = client.db(dbName);
 		if (!err) {
 			// La requete mongoDB
@@ -363,7 +366,7 @@ exports.AddMenuToRestaurant1 = function () {
 //je recupere tout les ids mais seulement les ids des restaurants et je rajoute dans le menu dans la collection menu 
 //avec un champ idRestaurant.
 
-exports.AddMenuToRestaurant = function (id, callback) {
+exports.AddMenuToRestaurant = function (callback) {
 
 
 	MongoClient.connect(url, async function (err, client) {
@@ -396,17 +399,87 @@ exports.AddMenuToRestaurant = function (id, callback) {
 				});
 			}).then(() => {
 				//si c'est une réussite on créer un index qui doit être unique merci le cours de M. Mopolo *hehehe* -> rire de M. Mopolo
-				db.collection("menus").createIndex({restaurantID:1}, { unique: true }).then(() => {
+				db.collection("menus").createIndex({ restaurantID: 1 }, { unique: true }).then(() => {
 					console.log("index restaurantID ajouté avec succès à la collection menus");
+					//variable pour le callback
+					reponse = {
+						succes: true,
+						error: null,
+						msg: "Ajout des menus réussis!"
+					};
+					callback(reponse);
 				});
 				console.log("fin de l'ajout des menus !");
 			}).catch((err) => {
 				console.log("Erreur lors de la fin de l'ajout des menus");
+				reponse = {
+					succes: false,
+					restaurant: null,
+					error: err,
+					msg: "erreur lors de l'ajout des menus"
+				}
+				callback(reponse);
 			});
 
 
 		}
-
+		//si on ne recupere pas la base
+		else {
+			reponse = {
+				succes: false,
+				restaurant: null,
+				error: err,
+				msg: "erreur lors de la récupération de la base"
+			}
+			callback(reponse);
+		}
 	});
 
+}
+
+//methode pour récuperer un menu en fonction de l'id du restaurant
+//ATTENTION /!\ un restaurant ne peut avoir qu'un seul menu contrainte d'unicité via l'index restaurantID
+exports.findMenuByRestaurantId = function (id, callback) {
+	MongoClient.connect(url,{
+   		useNewUrlParser: true,
+   		useUnifiedTopology: true
+ 	}, function (err, client) {
+		var db = client.db(dbName);
+		if (!err) {
+			// La requete mongoDB
+
+			let myquery = { "restaurantID": ObjectId(id) };
+
+			db.collection("menus")
+				.findOne(myquery, function (err, data) {
+					let reponse;
+
+					if (!err) {
+						reponse = {
+							succes: true,
+							menu: data,
+							error: null,
+							msg: "Details du menu du restaurant envoyés"
+						};
+					} else {
+						reponse = {
+							succes: false,
+							menu: null,
+							error: err,
+							msg: "erreur lors du find du menu"
+
+						};
+					}
+					callback(reponse);
+				});
+		} else {
+			let reponse = reponse = {
+				succes: false,
+				restaurant: null,
+				error: err,
+				msg: "erreur de connexion à la base"
+			};
+			callback(reponse);
+		}
+	});
 }

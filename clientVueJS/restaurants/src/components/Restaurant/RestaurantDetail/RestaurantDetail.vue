@@ -26,6 +26,7 @@ export default {
   data: () => {
     return {
       restaurant: undefined,
+      menu: undefined,
       scoreMoyen: 0,
       rating: 0,
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -39,6 +40,7 @@ export default {
   },
   mounted() {
     if (this.id) {
+      this.getMenusByRestaurantId(this.id);
       this.getRestaurantsFromServerById(this.id, () => {
         this.LMarker = latLng(
           this.restaurant.address.coord[1],
@@ -67,6 +69,20 @@ export default {
           console.error(err);
           this.cacherLeSpinner();
           alert("Une erreur est survenue lors du chargement des données");
+        });
+    },
+    getMenusByRestaurantId(id) {
+      var url = "http://localhost:80/api/restaurants/menu/" + id;
+      fetch(url)
+        .then((response) => {
+          response.json().then((data) => {
+            this.menu = data.menu;
+            console.log(this.menu);
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Une erreur est survenue lors du chargement des menus du restaurant.");
         });
     },
     calculerRatingNoteRestaurant() {
@@ -115,23 +131,7 @@ export default {
       this.showProgressSpinner = true;
       var overlay = document.getElementById("overlay");
       overlay.style.display = "block";
-    },
-    addMenuToRestaurant(){
-      alert("pourt");
-      fetch("http://localhost:80/api/restaurantsMenu/" + this.id, {
-          method: "put",
-        })
-          .then((responsePost) => {
-            console.log(responsePost.status);
-            if (responsePost.status == 200) {
-              alert("ca a amrche vavoir la bd");
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            alert("Une erreur est survenue lors de l'ajout des données");
-          });
-    },
+    }
   },
 };
 </script>

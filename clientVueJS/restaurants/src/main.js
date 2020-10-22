@@ -10,6 +10,7 @@ import 'vue-material/dist/theme/default.css'
 //component pour routes
 import RestaurantDetail from './components/Restaurant/RestaurantDetail/RestaurantDetail'
 import RestaurantAccueil from './components/Restaurant/RestaurantAccueil'
+import Admin from './components/Admin'
 
 //leaflet bibliotheque
 import 'leaflet/dist/leaflet.css';
@@ -27,6 +28,7 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   routes:  [
     { path: '/', component: RestaurantAccueil },
+    { path: '/admin', component: Admin },
     { path: '/detail/:id',name:'detail', component: RestaurantDetail, props:true },
     { path: '*', component: RestaurantAccueil },
   ],
