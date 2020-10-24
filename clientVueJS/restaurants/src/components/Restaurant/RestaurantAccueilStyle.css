@@ -1,8 +1,8 @@
 .md-progress-spinner {
-    margin-left: 48%;
-    position: relative;
-    z-index: 16;
-    top: -350px;
+  margin-left: 48%;
+  position: relative;
+  z-index: 16;
+  top: -350px;
 }
 #overlay {
   position: fixed;
@@ -16,20 +16,19 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
-  
-  .colonneDelete:hover,
-  .colonneModifier:hover,
-  .colonneDetail:hover {
-    cursor: pointer;
-  }
-  .actionRestaurant
-  {
-    width: 10%;
 
-  }
-  #sliderNbRestaurants {
-    margin-top: 1%;
-  }
-  #templateModifier .md-dialog-title {
-    width: 1000px;
-  }
+.colonneDelete:hover,
+.colonneModifier:hover,
+.colonneDetail:hover {
+  cursor: pointer;
+}
+.actionRestaurant {
+  width: 10%;
+}
+
+#sliderNbRestaurants {
+  margin-top: 1%;
+}
+#templateModifier .md-dialog-title {
+  width: 1000px;
+}

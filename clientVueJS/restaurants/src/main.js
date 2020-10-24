@@ -18,6 +18,8 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import 'leaflet-defaulticon-compatibility';
 
+//highlightjs
+import VueHighlightJS from 'vue-highlightjs'
 
 import App from './App.vue'
 
@@ -25,6 +27,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
+Vue.use(VueHighlightJS)
 
 const router = new VueRouter({
   routes:  [

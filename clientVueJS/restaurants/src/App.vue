@@ -18,14 +18,14 @@ export default {
 }
 </script>
 
-<style>
-.md-app {
-    min-height: 350px;
-    border: 1px solid rgba(#000, .12);
-  }
-.md-drawer {
-    width: 230px;
-  }
+<style lang="scss">
+@import "~vue-material/dist/theme/engine"; // Import the theme engine
+
+@include md-register-theme("default", (
+  primary: md-get-palette-color(green, 600), // The primary color of your application
+));
+
+@import "~vue-material/dist/theme/all"; // Apply the theme
 a:hover {
   cursor: pointer;
 }

@@ -10,8 +10,9 @@
           <md-icon>menu</md-icon>
         </md-button>
         <span class="md-title">
-              <md-icon>restaurant</md-icon>
-            Tripadvisar</span>
+          <md-icon>restaurant</md-icon>
+          Tripadvisar</span
+        >
       </md-app-toolbar>
 
       <md-app-drawer :md-active.sync="menuVisible" md-persistent="mini">
@@ -27,11 +28,10 @@
 
         <md-list>
           <router-link :to="{ name: 'accueil' }">
-
-          <md-list-item>
-            <md-icon>home</md-icon>
-            <span class="md-list-item-text">Accueil</span>
-          </md-list-item>
+            <md-list-item>
+              <md-icon>home</md-icon>
+              <span class="md-list-item-text">Accueil</span>
+            </md-list-item>
           </router-link>
 
           <router-link :to="{ name: 'addRestaurant' }">
@@ -72,9 +72,8 @@ export default {
 </script>
 
 <style scoped>
-.md-toolbar.md-theme-default.md-primary
-{
-    background-color: #2cb978;
+.md-toolbar.md-theme-default.md-primary {
+  background-color: #2cb978;
 }
 .md-app {
   min-height: 350px;
