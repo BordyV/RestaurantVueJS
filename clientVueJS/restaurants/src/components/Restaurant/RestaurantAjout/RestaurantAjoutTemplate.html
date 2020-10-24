@@ -1,4 +1,8 @@
 <div id="RestaurantAjout">
+    <h1>Ajouter un restaurant à la base de données</h1>
+    <p>Attention cette opération permet d'ajouter un restaurant avec un <strong>nom et une cuisine.</strong></p>
+    <p>Cette fonctionnalité <strong>ne permet pas</strong> encore de pouvoir ajouter <strong>le quartier, le menu, l'addresse du restaurant.</strong></p>
+    <p>Ces champs seront disponibles dans une version v2 de cette application.</p>
     <form class="md-layout" @submit.prevent="ajouterRestaurant($event)">
         <md-field :class="{ 'md-invalid': !nameValide }" class="md-layout-item">
             <label>Nom</label>

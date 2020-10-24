@@ -1,10 +1,11 @@
-body{
+#RestaurantDetail{
     text-align: center;
 }
 .md-card {
   width: 1000px;
   display: inline-block;
   vertical-align: top;
+  text-align: left;
 }
 
 .card-reservation {

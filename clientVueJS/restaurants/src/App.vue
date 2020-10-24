@@ -2,24 +2,30 @@
 
   <div id="app">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
-    
-    <router-view></router-view>
+    <Menu></Menu>
   </div>
 </template>
 
 <script>
-
+import Menu from './components/Menu'
 
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Menu
+  }
+
 }
 </script>
 
 <style>
-body {
-  margin: 5%;
-  margin-top: 1%;
-}
+.md-app {
+    min-height: 350px;
+    border: 1px solid rgba(#000, .12);
+  }
+.md-drawer {
+    width: 230px;
+  }
 a:hover {
   cursor: pointer;
 }

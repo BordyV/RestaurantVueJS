@@ -1,26 +1,9 @@
 <div id="RestaurantDetail">
-    <router-link to="/">
+    <!--<router-link to="/">
         <md-button class="md-dense md-raised md-primary">Retour </md-button>
     </router-link>
+    -->
 
-    <!-- <div style="height: 350px; width: 300px;" v-if="restaurant">
-            <div class="info" style="height: 15%, width: 15%;">
-              <span>Center: {{ center }}</span>
-              <span>Zoom: {{ zoom }}</span>
-              <span>Bounds: {{ bounds }}</span>
-            </div>
-            <l-map
-              style="height: 80%; width: 100%"
-              :zoom="zoom"
-              :center="center"
-              @update:zoom="zoomUpdated"
-              @update:center="centerUpdated"
-              @update:bounds="boundsUpdated"
-            >
-              <l-tile-layer :url="url"></l-tile-layer>
-              <l-marker :lat-lng="LMarker"></l-marker>  
-            </l-map>
-    </div> -->
 
 
     <md-card v-if="restaurant">
@@ -52,10 +35,7 @@
         <md-card-content>
             <h3 class="md-subheading">Menu : </h3>
             <div class="card-menu">
-                <md-icon>restaurant_menu</md-icon>
-                <div>
-                    <li>la on affiche le menu mais on a pas de donnée pas de change</li>
-                </div>
+                <CarteMenu :idRestaurant="id"></CarteMenu>
             </div>
         </md-card-content>
 

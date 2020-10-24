@@ -9,6 +9,7 @@ import 'vue-material/dist/theme/default.css'
 
 //component pour routes
 import RestaurantDetail from './components/Restaurant/RestaurantDetail/RestaurantDetail'
+import RestaurantAjout from './components/Restaurant/RestaurantAjout/RestaurantAjout'
 import RestaurantAccueil from './components/Restaurant/RestaurantAccueil'
 import Admin from './components/Admin'
 
@@ -27,8 +28,9 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes:  [
-    { path: '/', component: RestaurantAccueil },
-    { path: '/admin', component: Admin },
+    { path: '/', name:'accueil', component: RestaurantAccueil },
+    { path: '/admin',name:'admin', component: Admin },
+    { path: '/ajouterRestaurant',name:'addRestaurant', component: RestaurantAjout },
     { path: '/detail/:id',name:'detail', component: RestaurantDetail, props:true },
     { path: '*', component: RestaurantAccueil },
   ],

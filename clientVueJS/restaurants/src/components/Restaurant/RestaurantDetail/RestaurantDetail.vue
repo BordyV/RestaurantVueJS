@@ -8,6 +8,7 @@
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import StarRating from "vue-star-rating";
+import CarteMenu from "./CarteDetail/CarteMenu"
 
 export default {
   name: "RestaurantDetail",
@@ -22,11 +23,11 @@ export default {
     LTileLayer,
     LMarker,
     StarRating,
+    CarteMenu
   },
   data: () => {
     return {
       restaurant: undefined,
-      menu: undefined,
       scoreMoyen: 0,
       rating: 0,
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -40,7 +41,6 @@ export default {
   },
   mounted() {
     if (this.id) {
-      this.getMenusByRestaurantId(this.id);
       this.getRestaurantsFromServerById(this.id, () => {
         this.LMarker = latLng(
           this.restaurant.address.coord[1],
@@ -69,20 +69,6 @@ export default {
           console.error(err);
           this.cacherLeSpinner();
           alert("Une erreur est survenue lors du chargement des données");
-        });
-    },
-    getMenusByRestaurantId(id) {
-      var url = "http://localhost:80/api/restaurants/menu/" + id;
-      fetch(url)
-        .then((response) => {
-          response.json().then((data) => {
-            this.menu = data.menu;
-            console.log(this.menu);
-          });
-        })
-        .catch((err) => {
-          console.error(err);
-          alert("Une erreur est survenue lors du chargement des menus du restaurant.");
         });
     },
     calculerRatingNoteRestaurant() {

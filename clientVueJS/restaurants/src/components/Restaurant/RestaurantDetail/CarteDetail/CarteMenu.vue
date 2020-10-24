@@ -1,0 +1,38 @@
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style src="./CarteMenuStyle.css" scoped></style>
+
+<template src="./CarteMenuTemplate.html"></template>
+
+
+<script>
+export default {
+  name: "CarteMenu",
+  props: ["idRestaurant"],
+  data: () => {
+    return {
+      menu: undefined,
+    };
+  },
+  mounted() {
+    if (this.idRestaurant) {
+      this.getMenusByRestaurantId(this.idRestaurant);
+    }
+  },
+  methods: {
+    getMenusByRestaurantId(id) {
+      var url = "http://localhost:80/api/restaurants/menu/" + id;
+      fetch(url)
+        .then((response) => {
+          response.json().then((data) => {
+            this.menu = data.menu;
+            console.log(this.menu);
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Une erreur est survenue lors du chargement des menus du restaurant.");
+        });
+    }
+  },
+};
+</script>
