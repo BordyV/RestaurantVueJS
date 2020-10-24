@@ -8,6 +8,13 @@
 export default {
   name: "CarteMenu",
   props: ["idRestaurant"],
+  filters: {
+    capitalize: function (value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+  },
   data: () => {
     return {
       lesMenus: undefined,
@@ -30,9 +37,11 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-          alert("Une erreur est survenue lors du chargement des menus du restaurant.");
+          alert(
+            "Une erreur est survenue lors du chargement des menus du restaurant."
+          );
         });
-    }
+    },
   },
 };
 </script>
