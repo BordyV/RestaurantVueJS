@@ -4,8 +4,6 @@
     </router-link>
     -->
 
-
-
     <md-card v-if="restaurant">
         <md-card-area md-inset>
             <md-card-media>
@@ -33,7 +31,10 @@
 
 
         <md-card-content>
-            <h3 class="md-subheading">Menu : </h3>
+            <h3 class="md-subheading">
+                <md-icon>restaurant_menu</md-icon>
+                Menu :
+            </h3>
             <div class="card-menu">
                 <CarteMenu :idRestaurant="id"></CarteMenu>
             </div>

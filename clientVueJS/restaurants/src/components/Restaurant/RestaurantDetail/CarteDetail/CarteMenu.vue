@@ -10,7 +10,7 @@ export default {
   props: ["idRestaurant"],
   data: () => {
     return {
-      menu: undefined,
+      lesMenus: undefined,
     };
   },
   mounted() {
@@ -24,7 +24,7 @@ export default {
       fetch(url)
         .then((response) => {
           response.json().then((data) => {
-            this.menu = data.menu;
+            this.lesMenus = data.menu;
             console.log(this.menu);
           });
         })

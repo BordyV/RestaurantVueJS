@@ -37,7 +37,7 @@
     
     <!--DEBUT PROGRESS SPINNER-->
     <template v-if="showProgressSpinner">
-      <div>
+      <div id="progressSpinnerAdmin">
         <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
       </div>
     </template>
@@ -141,6 +141,7 @@ export default {
   position: relative;
   z-index: 46;
 }
+
 #overlay {
   position: fixed;
   display: none;
@@ -151,6 +152,6 @@ export default {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 11999;
 }
 </style>
