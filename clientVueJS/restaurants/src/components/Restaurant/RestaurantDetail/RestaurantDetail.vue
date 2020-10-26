@@ -8,6 +8,9 @@
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import StarRating from "vue-star-rating";
+import CarteMenu from "./CarteDetail/CarteMenu";
+import RestaurantCommander from "./RestaurantCommander/RestaurantCommander";
+
 
 export default {
   name: "RestaurantDetail",
@@ -22,6 +25,8 @@ export default {
     LTileLayer,
     LMarker,
     StarRating,
+    CarteMenu,
+    RestaurantCommander
   },
   data: () => {
     return {
@@ -115,7 +120,7 @@ export default {
       this.showProgressSpinner = true;
       var overlay = document.getElementById("overlay");
       overlay.style.display = "block";
-    },
+    }
   },
 };
 </script>

@@ -1,13 +1,11 @@
 <div id="restaurant">
-    <RestaurantAjout />
     <!--TABLE ANGULAR MATERIAL-->
-
     <md-table v-model="restaurants">
         <md-table-toolbar>
             <h1 class="md-title">Nombre de restaurants : {{ restaurants.length}}/{{nbTotalRestaurants}} page:
                 {{pagination +1}}</h1>
             <md-field md-clearable class="md-toolbar-section-end">
-                <md-input placeholder="Recherche nom ou cuisine..." v-model="valueRecherche" @change="searchOnTable" />
+                <md-input placeholder="Recherche nom du restaurant..." v-model="valueRecherche" @change="searchOnTable" />
             </md-field>
         </md-table-toolbar>
 
@@ -36,7 +34,7 @@
             </md-table-cell>
             <md-table-cell md-label="Voir le détail">
                 <router-link :to="{ name: 'detail', params: {id: item._id } }">
-                    <md-icon class="colonneDetail">loop</md-icon>
+                    <md-icon class="colonneDetail">pageview</md-icon>
                 </router-link>
             </md-table-cell>
 
