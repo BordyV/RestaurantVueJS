@@ -1,8 +1,45 @@
 <div id="CarteMenu">
     <div v-if="lesMenus">
 
-        <md-tabs>
-            <md-tab id="tab-home" md-label="Hors d'oeuvres">
+
+        <!--SI c'est une commande on l'affiche avec une selection possible -->
+        <md-tabs v-if="commander">
+            <md-tab id="tab-entreeCommande" md-label="Hors d'oeuvres">
+                <md-table v-model="lesMenus.entree" md-card md-fixed-header @md-selected="onSelectEntree">
+                    <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
+                        <md-table-cell md-label="Nom">{{ item.nom | capitalize }}</md-table-cell>
+                        <md-table-cell md-label="Description">{{ item.description }}</md-table-cell>
+                        <md-table-cell md-label="Prix">{{ item.prix }}</md-table-cell>
+                    </md-table-row>
+                </md-table>
+            </md-tab>
+            <md-tab id="tab-platCommande" md-label="Plats">
+                <md-table v-model="lesMenus.plat" md-card md-fixed-header  @md-selected="onSelectPlat">
+
+                    <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
+                        <md-table-cell md-label="Nom">{{ item.nom  | capitalize}}</md-table-cell>
+                        <md-table-cell md-label="Description">{{ item.description }}</md-table-cell>
+                        <md-table-cell md-label="Prix">{{ item.prix }}</md-table-cell>
+                    </md-table-row>
+                </md-table>
+            </md-tab>
+            </md-tab>
+            <md-tab id="tab-dessertCommande" md-label="Desserts">
+                <md-table v-model="lesMenus.dessert" md-card md-fixed-header  @md-selected="onSelectDessert">
+
+                    <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="multiple" md-auto-select>
+                        <md-table-cell md-label="Nom">{{ item.nom | capitalize}}</md-table-cell>
+                        <md-table-cell md-label="Description">{{ item.description }}</md-table-cell>
+                        <md-table-cell md-label="Prix">{{ item.prix }}</md-table-cell>
+                    </md-table-row>
+                </md-table>
+            </md-tab>
+            </md-tab>
+        </md-tabs>
+
+        <!--SI ce n'est pas une commande on l'affiche normalement-->
+        <md-tabs v-else>
+            <md-tab id="tab-entree" md-label="Hors d'oeuvres">
                 <md-table v-model="lesMenus.entree" md-card md-fixed-header>
                     <md-table-row slot="md-table-row" slot-scope="{ item }">
                         <md-table-cell md-label="Nom">{{ item.nom | capitalize }}</md-table-cell>
@@ -11,7 +48,7 @@
                     </md-table-row>
                 </md-table>
             </md-tab>
-            <md-tab id="tab-pages" md-label="Plats">
+            <md-tab id="tab-plat" md-label="Plats">
                 <md-table v-model="lesMenus.plat" md-card md-fixed-header>
 
                     <md-table-row slot="md-table-row" slot-scope="{ item }">
@@ -22,7 +59,7 @@
                 </md-table>
             </md-tab>
             </md-tab>
-            <md-tab id="tab-disabled" md-label="Desserts">
+            <md-tab id="tab-dessert" md-label="Desserts">
                 <md-table v-model="lesMenus.dessert" md-card md-fixed-header>
 
                     <md-table-row slot="md-table-row" slot-scope="{ item }">

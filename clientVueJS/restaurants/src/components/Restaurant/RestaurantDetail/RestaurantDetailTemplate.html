@@ -36,20 +36,28 @@
                 Carte :
             </h3>
             <div class="card-menu">
-                <CarteMenu :idRestaurant="id"></CarteMenu>
+                <CarteMenu :idRestaurant="id" :commander="false"></CarteMenu>
             </div>
         </md-card-content>
 
         <md-card-content>
-            <h3 class="md-subheading">Reservation Disponible: </h3>
-            <div class="card-reservation">
-                <md-icon>access_time</md-icon>
-                <div class="md-button-group">
-                    <md-button>12:30</md-button>
-                    <md-button>19:30PM</md-button>
-                    <md-button>20:00PM</md-button>
+            <md-tabs>
+            <md-tab id="tab-commander" md-label="Commander en ligne" md-icon="directions_bike">
+                <RestaurantCommander :idRestaurant="id"></RestaurantCommander>
+            
+            </md-tab>
+            <md-tab id="tab-reserver" md-label="Reserver en ligne" md-icon="food_bank">
+                <h3 class="md-subheading">Reservation Disponible: </h3>
+                <div class="card-reservation">
+                    <md-icon>access_time</md-icon>
+                    <div class="md-button-group">
+                        <md-button>12:30</md-button>
+                        <md-button>19:30</md-button>
+                        <md-button>20:00</md-button>
+                    </div>
                 </div>
-            </div>
+            </md-tab>
+        </md-tabs>
         </md-card-content>
 
         <md-card-actions>

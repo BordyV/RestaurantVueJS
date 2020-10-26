@@ -8,7 +8,9 @@
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import StarRating from "vue-star-rating";
-import CarteMenu from "./CarteDetail/CarteMenu"
+import CarteMenu from "./CarteDetail/CarteMenu";
+import RestaurantCommander from "./RestaurantCommander/RestaurantCommander";
+
 
 export default {
   name: "RestaurantDetail",
@@ -23,7 +25,8 @@ export default {
     LTileLayer,
     LMarker,
     StarRating,
-    CarteMenu
+    CarteMenu,
+    RestaurantCommander
   },
   data: () => {
     return {

@@ -1,0 +1,68 @@
+<div id="RestaurantCommander">
+Pour accéder au formulaire de commande cliquez sur le bouton suivant:  
+<md-button class="md-dense md-raised md-primary"  @click="afficherMenuComponent = true; active = 'first'">Formulaire </md-button>
+
+
+
+    <!--DEBUT Boite de dialog lors d'une commande-->
+    <template id="templateModificationReussi">
+        <div>
+            <md-dialog :md-active.sync="afficherMenuComponent" id="MenuDialog">
+                <md-dialog-title>
+                    <span>formulaire de commande : </span>
+                </md-dialog-title>
+                <md-dialog-content class="md-scrollbar">
+                    <md-steppers :md-active-step.sync="active">
+                        <md-step id="first" md-label="Choissisez vos hors d'oeuvres/plats/desserts">
+                            <CarteMenu :idRestaurant="idRestaurant" :commander="true" 
+                            @selectedEntree="updateEntreeCommande"
+                            @selectedPlat="updatePlatCommande"
+                            @selectedDessert="updateDessertCommande"></CarteMenu>
+                            <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Suivant</md-button>
+                        </md-step>
+                        <md-step id="second" md-label="Remplissez vos informations">
+                            
+                            <form class="md-layout" @submit.prevent="setDone('second', 'third')">
+                                <!--nomCommande-->
+                                <md-field class="md-layout-item">
+                                    <label>Nom</label>
+                                    <md-input name="nomCommande" id="nomCommande" v-model="nomCommande" required>
+                                    </md-input>
+                                </md-field>
+                                <!--prenomCommande-->
+                                <md-field class="md-layout-item">
+                                    <label>Prenom</label>
+                                    <md-input name="prenomCommande" id="prenomCommande" v-model="prenomCommande" required>
+                                    </md-input>
+                                </md-field>
+                                <!--mail-->
+                                <md-field>
+                                    <label>Mail</label>
+                                    <md-input name="mailCommande" id="mailCommande" v-model="mailCommande" required>
+                                    </md-input>
+                                </md-field>
+                                <md-field>
+                                    <label>Message restaurant/livreur</label>
+                                    <md-textarea v-model="messsageCommande" md-counter="80"></md-textarea>
+                                  </md-field>
+                            <md-button class="md-raised md-primary" @click="setDone('first', 'first')">Précédent</md-button>
+                                <md-button class="md-raised md-accent" type="reset">RESET</md-button>
+                                <md-button class="md-raised md-primary" type="submit">Suivant</md-button>
+                            </form>
+                        </md-step>
+                        <md-step id="third" md-label="Validez la commande">
+                            Recapitulatif commande: <br>
+                            <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Précédent</md-button>
+                            <md-button class="md-raised md-primary" @click="ValiderCommande()">Commander</md-button>
+                        </md-step>
+                    </md-steppers>                    
+                </md-dialog-content>
+                <md-dialog-actions>
+                    <md-button class="md-primary" @click="afficherMenuComponent = false">Annuler</md-button>
+                </md-dialog-actions>
+            </md-dialog>
+        </div>
+    </template>
+    <!--FIN Boite de dialog lors d'une commande-->
+
+</div>

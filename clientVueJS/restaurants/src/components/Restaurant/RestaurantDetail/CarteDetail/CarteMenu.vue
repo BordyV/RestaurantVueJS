@@ -7,7 +7,7 @@
 <script>
 export default {
   name: "CarteMenu",
-  props: ["idRestaurant"],
+  props: ["idRestaurant", "commander"],
   filters: {
     capitalize: function (value) {
       if (!value) return "";
@@ -18,6 +18,9 @@ export default {
   data: () => {
     return {
       lesMenus: undefined,
+      selectedEntree: [],
+      selectedPlat: [],
+      selectedDessert: []
     };
   },
   mounted() {
@@ -32,7 +35,7 @@ export default {
         .then((response) => {
           response.json().then((data) => {
             this.lesMenus = data.menu;
-            console.log(this.menu);
+            console.log(this.lesMenus);
           });
         })
         .catch((err) => {
@@ -42,6 +45,19 @@ export default {
           );
         });
     },
+    onSelectEntree (items) {
+        this.selectedEntree = items;
+        this.$emit('selectedEntree', this.selectedEntree);
+      },
+       onSelectPlat (items) {
+        this.selectedPlat = items;
+        this.$emit('selectedPlat',this.selectedPlat);
+      },
+       onSelectDessert (items) {
+        this.selectedDessert = items;
+        this.$emit('selectedDessert', this.selectedDessert);
+
+      },
   },
 };
 </script>
