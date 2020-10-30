@@ -36,9 +36,14 @@ Pour accéder au formulaire de commande cliquez sur le bouton suivant:
                                     </md-input>
                                 </md-field>
                                 <!--mail-->
-                                <md-field>
+                                <md-field class="md-layout-item">
                                     <label>Mail</label>
                                     <md-input name="mailCommande" id="mailCommande" v-model="mailCommande" required>
+                                    </md-input>
+                                </md-field>
+                                <md-field >
+                                    <label>Adresse</label>
+                                    <md-input name="adresseCommande" id="adresseCommande" v-model="adresseCommande" required>
                                     </md-input>
                                 </md-field>
                                 <md-field>
@@ -52,6 +57,7 @@ Pour accéder au formulaire de commande cliquez sur le bouton suivant:
                         </md-step>
                         <md-step id="third" md-label="Validez la commande">
                             Recapitulatif commande: <br>
+                            <p>Nom prénom: <strong>{{nomCommande + " " + prenomCommande}}</strong></p>
                             <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Précédent</md-button>
                             <md-button class="md-raised md-primary" @click="ValiderCommande()">Commander</md-button>
                         </md-step>

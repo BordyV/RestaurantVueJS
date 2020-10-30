@@ -25,6 +25,7 @@ export default {
       nomCommande: undefined,
       prenomCommande: undefined,
       mailCommande: undefined,
+      adresseCommande: undefined,
       messsageCommande: undefined,
       entreeCommande: [],
       platCommande: [],
