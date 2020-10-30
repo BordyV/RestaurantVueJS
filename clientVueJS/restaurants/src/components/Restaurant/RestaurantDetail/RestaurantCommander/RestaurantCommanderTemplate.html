@@ -12,15 +12,15 @@ Pour accéder au formulaire de commande cliquez sur le bouton suivant:
                     <span>formulaire de commande : </span>
                 </md-dialog-title>
                 <md-dialog-content class="md-scrollbar">
-                    <md-steppers :md-active-step.sync="active">
-                        <md-step id="first" md-label="Choissisez vos hors d'oeuvres/plats/desserts">
+                    <md-steppers :md-active-step.sync="active"  md-linear>
+                        <md-step id="first" md-label="Choissisez vos hors d'oeuvres/plats/desserts"  :md-editable="false" :md-done.sync="first" :md-error="errorAucunChoixMenu">
                             <CarteMenu :idRestaurant="idRestaurant" :commander="true" 
                             @selectedEntree="updateEntreeCommande"
                             @selectedPlat="updatePlatCommande"
                             @selectedDessert="updateDessertCommande"></CarteMenu>
                             <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Suivant</md-button>
                         </md-step>
-                        <md-step id="second" md-label="Remplissez vos informations">
+                        <md-step id="second" md-label="Remplissez vos informations" :md-editable="false" :md-done.sync="second">
                             
                             <form class="md-layout" @submit.prevent="setDone('second', 'third')">
                                 <!--nomCommande-->
@@ -55,9 +55,20 @@ Pour accéder au formulaire de commande cliquez sur le bouton suivant:
                                 <md-button class="md-raised md-primary" type="submit">Suivant</md-button>
                             </form>
                         </md-step>
-                        <md-step id="third" md-label="Validez la commande">
+                        <md-step id="third" md-label="Validez la commande"  :md-editable="false" :md-done.sync="third">
                             Recapitulatif commande: <br>
                             <p>Nom prénom: <strong>{{nomCommande + " " + prenomCommande}}</strong></p>
+                            <p>Mail: <strong>{{mailCommande}}</strong></p>
+                            <p>Adresse: <strong>{{adresseCommande}}</strong></p>
+                            <p v-if="messsageCommande">Message restaurant/livreur: <strong>{{messsageCommande}}</strong></p>
+
+                            <md-table v-model="CommandeTotal" md-card md-fixed-header>
+                                <md-table-row slot="md-table-row" slot-scope="{ item }">
+                                    <md-table-cell md-label="Nom">{{ item.nom | capitalize }}</md-table-cell>
+                                    <md-table-cell md-label="Description">{{ item.description }}</md-table-cell>
+                                    <md-table-cell md-label="Prix">{{ item.prix }}</md-table-cell>
+                                </md-table-row>
+                            </md-table>
                             <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Précédent</md-button>
                             <md-button class="md-raised md-primary" @click="ValiderCommande()">Commander</md-button>
                         </md-step>

@@ -21,7 +21,7 @@ export default {
       second: false,
       third: false,
 
-      errorNoData: undefined,
+      errorAucunChoixMenu: undefined,
       nomCommande: undefined,
       prenomCommande: undefined,
       mailCommande: undefined,
@@ -30,6 +30,7 @@ export default {
       entreeCommande: [],
       platCommande: [],
       dessertCommande: [],
+      CommandeTotal: [],
       afficherMenuComponent: false,
     };
   },
@@ -47,9 +48,28 @@ export default {
     },
     setDone(id, index) {
       this[id] = true;
+      this.errorAucunChoixMenu = undefined;
 
+      //si quand on part de la premiere page aucun des 3 tableaux n'a une case de selectionné alors nous ne passons pas à la page suivante
+      //et nous déclarons une erreur.
+      if (id =="first") {
+        if(this.entreeCommande.length == 0 && this.platCommande.length == 0 && this.dessertCommande == 0)
+        {
+          this.errorAucunChoixMenu = "Veuillez au moins choisir un hors d'oeuvre, un plat ou un dessert !";
+          return false;
+        }
+      }
       if (index) {
         this.active = index;
+      }
+
+      //si on arrive sur la 3eme page on remplit le tableau CommandeTotal pour avoir tout les plats.
+      if (index =="third") {
+        this.CommandeTotal = [];
+        Array.prototype.push.apply(this.CommandeTotal,this.entreeCommande);
+        Array.prototype.push.apply(this.CommandeTotal,this.platCommande);
+        Array.prototype.push.apply(this.CommandeTotal,this.dessertCommande);
+
       }
     },
     updateEntreeCommande(lesEntrees) {
