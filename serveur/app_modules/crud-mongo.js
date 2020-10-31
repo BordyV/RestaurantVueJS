@@ -513,9 +513,9 @@ exports.createCommande = function (dataCommande, callback) {
 				 to: dataCommande.mailClient,
 				 subject: 'Confirmation commande Tripadvisar mail automatique ne pas répondre',
 				 html: '<p>Bonjour Mr.<strong>' + dataCommande.nomClient + ' ' + dataCommande.prenomClient + '</strong></p>' + 
-				 '<br><p>Nous accusons bonne réception de votre commande pour ladresse : ' + dataCommande.addresseClient + '</p>'
+				 '<br><p>Nous accusons bonne réception de votre commande pour l&rsquo;adresse : ' + dataCommande.addresseClient + '</p>'
 				 + '<p>Vous avez transmis comme message au restaurant/livreur : <strong>' + messageClientAEnvoyer + '</strong></p>' +
-				  '<p><em>Ce mail est un mail automatique votre réponse ne sera pas prise en compte.</em></p>',	
+				  '<p><em>Ce mail est un mail automatique votre réponse ne sera pas prise en compte.<br>L&rsquo;equipe de Tripadvisar.</em></p>',	
 				};
 			
 
