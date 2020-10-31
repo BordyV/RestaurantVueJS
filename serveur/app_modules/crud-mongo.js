@@ -497,9 +497,9 @@ exports.createCommande = function (dataCommande, callback) {
 				prenomClient: dataCommande.prenomClient,
 				mailClient: dataCommande.mailClient,
 				messageClient: dataCommande.messageClient,
-				entrees: dataCommande.entrees,
-				plats: dataCommande.plats,
-				desserts: dataCommande.desserts
+				entrees: JSON.parse(dataCommande.entrees),
+				plats: JSON.parse(dataCommande.plats),
+				desserts: JSON.parse(dataCommande.desserts)
 			};
 			console.dir(JSON.stringify(toInsert));
 			db.collection("commande")
