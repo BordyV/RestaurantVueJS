@@ -13,7 +13,13 @@ export default {
   components: {
     CarteMenu,
   },
-
+  filters: {
+    capitalize: function (value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+  },
   data: () => {
     return {
       active: "first",
@@ -37,13 +43,37 @@ export default {
   mounted() {},
   methods: {
     ValiderCommande() {
-        console.log(this.nomCommande);
-        console.log(this.prenomCommande);
-        console.log(this.mailCommande);
-        console.log(this.messsageCommande);
-        console.log(this.entreeCommande);
-        console.log(this.platCommande);
-        console.log(this.dessertCommande);
+      let donneesFormulaire = new FormData();
+      donneesFormulaire.append('idRestaurant', this.idRestaurant);
+      donneesFormulaire.append('nomClient', this.nomCommande);
+      donneesFormulaire.append('prenomClient', this.prenomCommande);
+      donneesFormulaire.append('mailClient', this.mailCommande);
+      donneesFormulaire.append('entrees', JSON.stringify(this.entreeCommande));
+      donneesFormulaire.append('plats', JSON.stringify(this.platCommande));
+      donneesFormulaire.append('desserts', JSON.stringify(this.dessertCommande));
+
+      //donneesFormulaire.push(this.idRestaurant, this.nomCommande,this.prenomCommande, this.mailCommande,
+      // this.messsageCommande, this.entreeCommande, this.platCommande, this.dessertCommande );
+debugger
+        fetch("http://localhost:80/api/commmander", {
+          method: "post",
+          body: donneesFormulaire,
+        })
+          .then((responsePost) => {
+            debugger
+            console.log(responsePost.status);
+            if (responsePost.status == 200) {
+              this.ajoutReussi = true;
+
+              //on remet les datas: nom et cuisine a null
+              this.name = "";
+              this.cuisine = "";
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Une erreur est survenue lors de l'ajout des données");
+          });
         
     },
     setDone(id, index) {
@@ -89,7 +119,7 @@ export default {
       for (const dessert of lesDesserts) {
         this.dessertCommande.push(dessert);
       }
-    },
+    }
   },
 };
 </script>

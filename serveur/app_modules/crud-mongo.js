@@ -483,3 +483,54 @@ exports.findMenuByRestaurantId = function (id, callback) {
 		}
 	});
 }
+
+
+exports.createCommande = function (dataCommande, callback) {
+	MongoClient.connect(url, function (err, client) {
+		var db = client.db(dbName);
+
+		if (!err) {
+
+			let toInsert = {
+				restaurantID: dataCommande.idRestaurant,
+				nomClient: dataCommande.nomClient,
+				prenomClient: dataCommande.prenomClient,
+				mailClient: dataCommande.mailClient,
+				messageClient: dataCommande.messageClient,
+				entrees: dataCommande.entrees,
+				plats: dataCommande.plats,
+				desserts: dataCommande.desserts
+			};
+			console.dir(JSON.stringify(toInsert));
+			db.collection("commande")
+				.insert(toInsert, function (err, insertedId) {
+					let reponse;
+
+					console.log('++++' + insertedId)
+
+					if (!err) {
+						reponse = {
+							succes: true,
+							result: insertedId.ops[0]._id,
+							error: null,
+							msg: "Ajout réussi " + insertedId.ops[0]._id
+						};
+					} else {
+						reponse = {
+							succes: false,
+							error: err,
+							msg: "Problème à l'insertion"
+						};
+					}
+					callback(reponse);
+				});
+		} else {
+			let reponse = reponse = {
+				succes: false,
+				error: err,
+				msg: "Problème lors de l'insertion, erreur de connexion."
+			};
+			callback(reponse);
+		}
+	});
+}
