@@ -484,6 +484,9 @@ exports.findMenuByRestaurantId = function (id, callback) {
 	});
 }
 
+const nodemailer = require('nodemailer');
+
+var motDePasse = require('./mail');
 
 exports.createCommande = function (dataCommande, callback) {
 	MongoClient.connect(url, function (err, client) {
@@ -491,10 +494,36 @@ exports.createCommande = function (dataCommande, callback) {
 
 		if (!err) {
 
+
+			let transporter = nodemailer.createTransport({
+				host: 'smtp.gmail.com',
+				port: 587,
+				secure: false,
+				requireTLS: true,
+				auth: {
+					user: 'restaurantvuejsbor@gmail.com',
+					pass: motDePasse
+				}
+				});
+				
+				let messageClientAEnvoyer = !dataCommande.messageClient ? "<em>Aucun message</em>" : dataCommande.messageClient; 
+
+				 mailOptions = {
+				 from: 'restaurantvuejsbor@gmail.com',
+				 to: dataCommande.mailClient,
+				 subject: 'Confirmation commande Tripadvisar mail automatique ne pas répondre',
+				 html: '<p>Bonjour Mr.<strong>' + dataCommande.nomClient + ' ' + dataCommande.prenomClient + '</strong></p>' + 
+				 '<br><p>Nous accusons bonne réception de votre commande pour ladresse : ' + dataCommande.addresseClient + '</p>'
+				 + '<p>Vous avez transmis comme message au restaurant/livreur : <strong>' + messageClientAEnvoyer + '</strong></p>' +
+				  '<p><em>Ce mail est un mail automatique votre réponse ne sera pas prise en compte.</em></p>',	
+				};
+			
+
 			let toInsert = {
 				restaurantID: dataCommande.idRestaurant,
 				nomClient: dataCommande.nomClient,
 				prenomClient: dataCommande.prenomClient,
+				addresseClient: dataCommande.addresseClient,
 				mailClient: dataCommande.mailClient,
 				messageClient: dataCommande.messageClient,
 				entrees: JSON.parse(dataCommande.entrees),
@@ -515,6 +544,15 @@ exports.createCommande = function (dataCommande, callback) {
 							error: null,
 							msg: "Ajout réussi " + insertedId.ops[0]._id
 						};
+
+						transporter.sendMail(mailOptions, (error, info) => {
+							if (error) {
+							   return console.log("mail erreur" + error.message);
+							}
+						  console.log('mail success');
+						  }); 
+
+
 					} else {
 						reponse = {
 							succes: false,

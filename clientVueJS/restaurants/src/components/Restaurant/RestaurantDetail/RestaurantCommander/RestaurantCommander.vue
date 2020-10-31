@@ -38,6 +38,7 @@ export default {
       dessertCommande: [],
       CommandeTotal: [],
       afficherMenuComponent: false,
+      showSnackbarCommande: false
     };
   },
   mounted() {},
@@ -47,14 +48,13 @@ export default {
       donneesFormulaire.append('idRestaurant', this.idRestaurant);
       donneesFormulaire.append('nomClient', this.nomCommande);
       donneesFormulaire.append('prenomClient', this.prenomCommande);
+      donneesFormulaire.append('addresseClient', this.adresseCommande);
       donneesFormulaire.append('mailClient', this.mailCommande);
+      donneesFormulaire.append('messageClient', this.messsageCommande);
       donneesFormulaire.append('entrees', JSON.stringify(this.entreeCommande));
       donneesFormulaire.append('plats', JSON.stringify(this.platCommande));
       donneesFormulaire.append('desserts', JSON.stringify(this.dessertCommande));
 
-      //donneesFormulaire.push(this.idRestaurant, this.nomCommande,this.prenomCommande, this.mailCommande,
-      // this.messsageCommande, this.entreeCommande, this.platCommande, this.dessertCommande );
-debugger
         fetch("http://localhost:80/api/commmander", {
           method: "post",
           body: donneesFormulaire,
@@ -63,11 +63,12 @@ debugger
             debugger
             console.log(responsePost.status);
             if (responsePost.status == 200) {
-              this.ajoutReussi = true;
-
-              //on remet les datas: nom et cuisine a null
-              this.name = "";
-              this.cuisine = "";
+              this.afficherMenuComponent = false;
+              this.showSnackbarCommande = true;
+              //on remet les datas du menu a null
+              this.entreeCommande = [];
+              this.platCommande = [];
+              this.dessertCommande = [];
             }
           })
           .catch((err) => {
