@@ -10,6 +10,7 @@ import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import StarRating from "vue-star-rating";
 import CarteMenu from "./CarteDetail/CarteMenu";
 import RestaurantCommander from "./RestaurantCommander/RestaurantCommander";
+import RestaurantReserver from "./RestaurantReserver/RestaurantReserver";
 
 
 export default {
@@ -26,7 +27,8 @@ export default {
     LMarker,
     StarRating,
     CarteMenu,
-    RestaurantCommander
+    RestaurantCommander,
+    RestaurantReserver
   },
   data: () => {
     return {

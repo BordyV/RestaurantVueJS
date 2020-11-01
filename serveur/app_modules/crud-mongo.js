@@ -494,7 +494,7 @@ exports.createCommande = function (dataCommande, callback) {
 
 		if (!err) {
 
-
+			// creation du transporter pour le mail via @nodeMailer
 			let transporter = nodemailer.createTransport({
 				host: 'smtp.gmail.com',
 				port: 587,
@@ -505,17 +505,42 @@ exports.createCommande = function (dataCommande, callback) {
 					pass: motDePasse
 				}
 				});
-				
+				console.log(dataCommande.messageClient);
+				//si le message est null
 				let messageClientAEnvoyer = !dataCommande.messageClient ? "<em>Aucun message</em>" : dataCommande.messageClient; 
 
+				//on fait les variables pour savoir ce que le client a prit comme entree
+				let tabEntree  ="Vous avez choisi comme entree(s) : <br>";
+				for(const entree of JSON.parse(dataCommande.entrees))
+				{
+					tabEntree += "<strong> " + entree.nom + " " + entree.prix+ " </strong> <br>"
+				}
+
+				//on fait les variables pour savoir ce que le client a prit comme plat
+				let tabplat  ="Vous avez choisi comme plat(s) : <br>";
+				for(const plat of JSON.parse(dataCommande.plats))
+				{
+					tabplat += "<strong> " + plat.nom + " " + plat.prix+ " </strong> <br>"
+				}
+
+				//on fait les variables pour savoir ce que le client a prit comme dessert
+				let tabDessert  ="Vous avez choisi comme dessert(s) : <br>";
+				for(const dessert of JSON.parse(dataCommande.desserts))
+				{
+					tabDessert += "<strong> " + dessert.nom + " " + dessert.prix+ " </strong> <br>"
+				}
+
+				//mail details
 				 mailOptions = {
 				 from: 'restaurantvuejsbor@gmail.com',
 				 to: dataCommande.mailClient,
 				 subject: 'Confirmation commande Tripadvisar mail automatique ne pas répondre',
 				 html: '<p>Bonjour Mr.<strong>' + dataCommande.nomClient + ' ' + dataCommande.prenomClient + '</strong></p>' + 
 				 '<br><p>Nous accusons bonne réception de votre commande pour l&rsquo;adresse : ' + dataCommande.addresseClient + '</p>'
-				 + '<p>Vous avez transmis comme message au restaurant/livreur : <strong>' + messageClientAEnvoyer + '</strong></p>' +
-				  '<p><em>Ce mail est un mail automatique votre réponse ne sera pas prise en compte.<br>L&rsquo;equipe de Tripadvisar.</em></p>',	
+				 + '<p>Vous avez transmis comme message au restaurant/livreur : <strong>' + messageClientAEnvoyer + '</strong></p>'  +
+				 '<p>' + tabEntree +' </p>' + '<p>' + tabplat +' </p>' + '<p>' + tabDessert +' </p><br>'+
+				 '<p>et pour un total de : <strong>'+ dataCommande.totalPrix +'€</strong> </p>'+
+				  '<p><em>Ce mail est un envoi automatique, votre réponse ne sera pas prise en compte.<br>Merci de votre commande, l&rsquo;equipe de Tripadvisar.</em></p>',	
 				};
 			
 

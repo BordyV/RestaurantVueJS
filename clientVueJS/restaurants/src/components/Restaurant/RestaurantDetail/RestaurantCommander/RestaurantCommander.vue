@@ -28,6 +28,7 @@ export default {
       third: false,
 
       errorAucunChoixMenu: undefined,
+      errorMailForm: undefined,
       nomCommande: undefined,
       prenomCommande: undefined,
       mailCommande: undefined,
@@ -44,6 +45,9 @@ export default {
   mounted() {},
   methods: {
     ValiderCommande() {
+      //on formate le message 
+      this.messsageCommande = this.messsageCommande == undefined ? "" : this.messsageCommande;
+
       let donneesFormulaire = new FormData();
       donneesFormulaire.append('idRestaurant', this.idRestaurant);
       donneesFormulaire.append('nomClient', this.nomCommande);
@@ -54,13 +58,14 @@ export default {
       donneesFormulaire.append('entrees', JSON.stringify(this.entreeCommande));
       donneesFormulaire.append('plats', JSON.stringify(this.platCommande));
       donneesFormulaire.append('desserts', JSON.stringify(this.dessertCommande));
+      donneesFormulaire.append('totalPrix', this.calculerTotal());
+
 
         fetch("http://localhost:80/api/commmander", {
           method: "post",
           body: donneesFormulaire,
         })
           .then((responsePost) => {
-            debugger
             console.log(responsePost.status);
             if (responsePost.status == 200) {
               this.afficherMenuComponent = false;
@@ -77,9 +82,11 @@ export default {
           });
         
     },
+    //permet de changer de page dans le stepper
     setDone(id, index) {
       this[id] = true;
       this.errorAucunChoixMenu = undefined;
+      this.errorMailForm = undefined;
 
       //si quand on part de la premiere page aucun des 3 tableaux n'a une case de selectionné alors nous ne passons pas à la page suivante
       //et nous déclarons une erreur.
@@ -87,6 +94,14 @@ export default {
         if(this.entreeCommande.length == 0 && this.platCommande.length == 0 && this.dessertCommande == 0)
         {
           this.errorAucunChoixMenu = "Veuillez au moins choisir un hors d'oeuvre, un plat ou un dessert !";
+          return false;
+        }
+      }
+      //si quand on part de la seconde page le mail n'est aps valide on reste dessus et on affiche un message d'erreur
+      if (id =="second") {
+        if(!this.validerEmail(this.mailCommande))
+        {
+          this.errorMailForm ="Veuillez saisir un mail valide."
           return false;
         }
       }
@@ -120,6 +135,25 @@ export default {
       for (const dessert of lesDesserts) {
         this.dessertCommande.push(dessert);
       }
+    },
+    //permet de valider l'email passer en parametre
+    validerEmail(email) 
+    {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    },
+    //permet de calculer le total de la commande
+    calculerTotal() 
+    {
+      let total = 0 ;
+      for(const plat of this.CommandeTotal)
+      {
+        let prix = plat.prix.replace('€','');
+        prix = prix.replace(',','.');
+        total += Number(prix);
+        
+      }
+      return total.toFixed(2);
     }
   },
 };

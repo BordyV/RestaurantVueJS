@@ -20,7 +20,7 @@ Pour accéder au formulaire de commande cliquez sur le bouton suivant:
                             @selectedDessert="updateDessertCommande"></CarteMenu>
                             <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Suivant</md-button>
                         </md-step>
-                        <md-step id="second" md-label="Remplissez vos informations" :md-editable="false" :md-done.sync="second">
+                        <md-step id="second" md-label="Remplissez vos informations" :md-editable="false" :md-done.sync="second" :md-error="errorMailForm">
                             
                             <form class="md-layout" @submit.prevent="setDone('second', 'third')">
                                 <!--nomCommande-->
@@ -82,7 +82,7 @@ Pour accéder au formulaire de commande cliquez sur le bouton suivant:
     </template>
     <!--FIN Boite de dialog lors d'une commande-->
 
-    <md-snackbar :md-position="position" :md-duration="Infinity" :md-active.sync="showSnackbarCommande" md-persistent>
+    <md-snackbar md-position="center" :md-duration="Infinity" :md-active.sync="showSnackbarCommande" md-persistent>
         <span>Votre commande a bien été prise en compte, veuillez consulter vos mails !</span>
         <md-button class="md-primary" @click="showSnackbarCommande = false">Fermer</md-button>
       </md-snackbar>
