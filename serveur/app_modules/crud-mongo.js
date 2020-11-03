@@ -536,7 +536,7 @@ exports.createCommande = function (dataCommande, callback) {
 				 to: dataCommande.mailClient,
 				 subject: 'Confirmation commande Tripadvisar mail automatique ne pas répondre',
 				 html: '<p>Bonjour Mr.<strong>' + dataCommande.nomClient + ' ' + dataCommande.prenomClient + '</strong></p>' + 
-				 '<br><p>Nous accusons bonne réception de votre commande pour l&rsquo;adresse : ' + dataCommande.addresseClient + '</p>'
+				 '<br><p>Nous accusons bonne réception de votre commande pour l&rsquo;adresse : <strong>' + dataCommande.addresseClient + '</strong></p>'
 				 + '<p>Vous avez transmis comme message au restaurant/livreur : <strong>' + messageClientAEnvoyer + '</strong></p>'  +
 				 '<p>' + tabEntree +' </p>' + '<p>' + tabplat +' </p>' + '<p>' + tabDessert +' </p><br>'+
 				 '<p>et pour un total de : <strong>'+ dataCommande.totalPrix +'€</strong> </p>'+
@@ -592,6 +592,100 @@ exports.createCommande = function (dataCommande, callback) {
 				succes: false,
 				error: err,
 				msg: "Problème lors de l'insertion, erreur de connexion."
+			};
+			callback(reponse);
+		}
+	});
+}
+
+
+exports.createReservation = function (dataCommande, callback) {
+	MongoClient.connect(url, function (err, client) {
+		var db = client.db(dbName);
+
+		if (!err) {
+
+
+			let toInsert = {
+				restaurantID: dataCommande.idRestaurant,
+				nomReservation: dataCommande.nameReservation,
+				heureReservation: dataCommande.heureReservation
+			};
+			console.dir(JSON.stringify(toInsert));
+			db.collection("reservation")
+				.insert(toInsert, function (err, insertedId) {
+					let reponse;
+
+					console.log('++++' + insertedId)
+
+					if (!err) {
+						reponse = {
+							succes: true,
+							result: insertedId.ops[0]._id,
+							error: null,
+							msg: "Ajout réussi " + insertedId.ops[0]._id
+						};
+
+					} else {
+						reponse = {
+							succes: false,
+							error: err,
+							msg: "Problème à l'insertion"
+						};
+					}
+					callback(reponse);
+				});
+		} else {
+			let reponse = reponse = {
+				succes: false,
+				error: err,
+				msg: "Problème lors de l'insertion, erreur de connexion."
+			};
+			callback(reponse);
+		}
+	});
+}
+
+//methode pour récuperer les reservations en fonction de l'id du restaurant
+exports.findReservationByRestaurantId = function (id, callback) {
+	MongoClient.connect(url,{
+   		useNewUrlParser: true,
+   		useUnifiedTopology: true
+ 	}, function (err, client) {
+		var db = client.db(dbName);
+		if (!err) {
+			// La requete mongoDB
+
+			let myquery = { "restaurantID": id };
+
+			db.collection("reservation")
+				.findOne(myquery, function (err, data) {
+					let reponse;
+					
+					if (!err) {
+						reponse = {
+							succes: true,
+							lesReservations: data,
+							error: null,
+							msg: "Les reservations du restaurant envoyés"
+						};
+					} else {
+						reponse = {
+							succes: false,
+							menu: null,
+							error: err,
+							msg: "erreur lors du find des reservations"
+
+						};
+					}
+					callback(reponse);
+				});
+		} else {
+			let reponse = reponse = {
+				succes: false,
+				restaurant: null,
+				error: err,
+				msg: "erreur de connexion à la base"
 			};
 			callback(reponse);
 		}

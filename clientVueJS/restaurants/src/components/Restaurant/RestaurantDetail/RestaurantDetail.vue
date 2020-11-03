@@ -122,6 +122,13 @@ export default {
       this.showProgressSpinner = true;
       var overlay = document.getElementById("overlay");
       overlay.style.display = "block";
+    },
+    imageRestaurant()
+    {
+      return require("@/assets/restaurant"+this.getRandomInt(3)+".jpg")
+    },
+    getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
     }
   },
 };

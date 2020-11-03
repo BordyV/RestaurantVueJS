@@ -188,12 +188,33 @@ app.get('/api/restaurants/menu/:id', function(req, res) {
 // Creation d'une commande par envoi d'un formulaire
 // On fera l'insert par un POST, c'est le standard REST
 app.post('/api/commmander', multerData.fields([]), function(req, res) {
-	// On supposera qu'on ajoutera un restaurant en 
-	// donnant son nom et sa cuisine. On va donc 
-	// recuperer les données du formulaire d'envoi
+	// On supposera qu'on ajoutera une commande en 
+	// donnant beaucoup d'informations.
 	// les params sont dans req.body même si le formulaire
 	// est envoyé en multipart
  	mongoDBModule.createCommande(req.body, function(data) {
  		res.send(JSON.stringify(data)); 
  	});
+});
+
+// Creation d'une reservation par envoi d'un formulaire
+// On fera l'insert par un POST, c'est le standard REST
+app.post('/api/reserver', multerData.fields([]), function(req, res) {
+	// On supposera qu'on ajoutera un restaurant en 
+	// donnant l'heure et le nom de la reservation et le restaurant_ID.
+	// les params sont dans req.body même si le formulaire
+	// est envoyé en multipart
+ 	mongoDBModule.createReservation(req.body, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+});
+
+// Récupération d'un seul restaurant par son id
+app.get('/api/restaurants/reservation/:id', function(req, res) {
+	var id = req.params.id;
+
+ 	mongoDBModule.findReservationByRestaurantId(id, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+ 
 });
