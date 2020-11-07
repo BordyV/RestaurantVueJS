@@ -37,7 +37,7 @@ export default {
       entreeCommande: [],
       platCommande: [],
       dessertCommande: [],
-      CommandeTotal: [],
+      commandeTotal: [],
       afficherMenuComponent: false,
       showSnackbarCommande: false
     };
@@ -74,6 +74,7 @@ export default {
               this.entreeCommande = [];
               this.platCommande = [];
               this.dessertCommande = [];
+              this.commandeTotal = [];
             }
           })
           .catch((err) => {
@@ -109,12 +110,12 @@ export default {
         this.active = index;
       }
 
-      //si on arrive sur la 3eme page on remplit le tableau CommandeTotal pour avoir tout les plats.
+      //si on arrive sur la 3eme page on remplit le tableau commandeTotal pour avoir tout les plats.
       if (index =="third") {
-        this.CommandeTotal = [];
-        Array.prototype.push.apply(this.CommandeTotal,this.entreeCommande);
-        Array.prototype.push.apply(this.CommandeTotal,this.platCommande);
-        Array.prototype.push.apply(this.CommandeTotal,this.dessertCommande);
+        this.commandeTotal = [];
+        Array.prototype.push.apply(this.commandeTotal,this.entreeCommande);
+        Array.prototype.push.apply(this.commandeTotal,this.platCommande);
+        Array.prototype.push.apply(this.commandeTotal,this.dessertCommande);
 
       }
     },
@@ -146,7 +147,7 @@ export default {
     calculerTotal() 
     {
       let total = 0 ;
-      for(const plat of this.CommandeTotal)
+      for(const plat of this.commandeTotal)
       {
         let prix = plat.prix.replace('€','');
         prix = prix.replace(',','.');

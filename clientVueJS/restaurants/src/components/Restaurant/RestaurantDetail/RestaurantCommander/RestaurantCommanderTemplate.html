@@ -62,13 +62,14 @@ Pour accéder au formulaire de commande cliquez sur le bouton suivant:
                             <p>Adresse: <strong>{{adresseCommande}}</strong></p>
                             <p v-if="messsageCommande">Message restaurant/livreur: <strong>{{messsageCommande}}</strong></p>
 
-                            <md-table v-model="CommandeTotal" md-card md-fixed-header>
+                            <md-table v-model="commandeTotal" md-card md-fixed-header>
                                 <md-table-row slot="md-table-row" slot-scope="{ item }">
                                     <md-table-cell md-label="Nom">{{ item.nom | capitalize }}</md-table-cell>
                                     <md-table-cell md-label="Description">{{ item.description }}</md-table-cell>
                                     <md-table-cell md-label="Prix">{{ item.prix }}</md-table-cell>
                                 </md-table-row>
                             </md-table>
+                            <p>Prix total de : <strong>{{this.calculerTotal()}} €</strong> </p>
                             <md-button class="md-raised md-primary" @click="setDone('first', 'second')">Précédent</md-button>
                             <md-button class="md-raised md-primary" @click="ValiderCommande()">Commander</md-button>
                         </md-step>
