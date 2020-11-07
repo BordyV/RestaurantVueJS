@@ -33,6 +33,7 @@ export default {
   data: () => {
     return {
       restaurant: undefined,
+      mediaRestaurant: undefined,
       scoreMoyen: 0,
       rating: 0,
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -42,6 +43,7 @@ export default {
       bounds: null,
       showProgressSpinner: false,
       afficherCarte: false,
+      imageRes: undefined,
     };
   },
   mounted() {
@@ -53,6 +55,10 @@ export default {
         );
         this.center = this.LMarker;
         this.calculerRatingNoteRestaurant();
+        //on recupere les medias et ajoute l'image au restaurant
+        this.getMediaFromServerByIdRestaurant(this.id, () => {
+          this.imageRestaurant(this.mediaRestaurant.numeroPhoto);
+        } )
       });
     }
   },
@@ -74,6 +80,25 @@ export default {
           console.error(err);
           this.cacherLeSpinner();
           alert("Une erreur est survenue lors du chargement des données");
+        });
+    },
+    getMediaFromServerByIdRestaurant(id, callback) {
+      this.afficherLeSpinner();
+      var url = "http://localhost:80/api/restaurants/media/" + id;
+      fetch(url)
+        .then((response) => {
+          response.json().then((data) => {
+            //data est une propriété de la response
+            this.mediaRestaurant = data.media;
+            console.log(this.mediaRestaurant);
+            this.cacherLeSpinner();
+            callback();
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          this.cacherLeSpinner();
+          alert("Une erreur est survenue lors du chargement des données des medias");
         });
     },
     calculerRatingNoteRestaurant() {
@@ -123,12 +148,9 @@ export default {
       var overlay = document.getElementById("overlay");
       overlay.style.display = "block";
     },
-    imageRestaurant()
+    imageRestaurant(numeroImage)
     {
-      return require("@/assets/restaurant"+this.getRandomInt(3)+".jpg")
-    },
-    getRandomInt(max) {
-      return Math.floor(Math.random() * Math.floor(max));
+      this.imageRes = require("@/assets/restaurant"+numeroImage+".jpg")
     }
   },
 };

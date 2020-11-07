@@ -175,11 +175,29 @@ app.put('/api/restaurantsMenu/', function(req, res) {
  	});
 });
 
+// Modification d'un restaurant, ajout des medias. on fera l'update par
+// une requête http PUT, c'est le standard REST
+app.put('/api/restaurantsMedia/', function(req, res) {
+
+	mongoDBModule.AddMediaToRestaurant(function(data) {
+		res.send(JSON.stringify(data)); 
+	});
+});
+
 // Récupération d'un seul restaurant par son id
 app.get('/api/restaurants/menu/:id', function(req, res) {
 	var id = req.params.id;
 
  	mongoDBModule.findMenuByRestaurantId(id, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+ 
+});
+// Récupération d'un seul restaurant par son id
+app.get('/api/restaurants/media/:id', function(req, res) {
+	var id = req.params.id;
+
+ 	mongoDBModule.findMediaByRestaurantId(id, function(data) {
  		res.send(JSON.stringify(data)); 
  	});
  

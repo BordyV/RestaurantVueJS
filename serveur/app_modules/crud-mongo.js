@@ -300,68 +300,6 @@ var desserts = require('./desert');
 // }
 
 
-// var async = require("async");
-
-
-exports.AddMenuToRestaurant1 = function () {
-
-	MongoClient.connect(url, function (err, client) {
-		var db = client.db(dbName);
-
-		if (!err) {
-			console.log("Debut requete addMenu");
-			//pour chaque doc dans la collection restaurants
-			db.collection("restaurants").find().forEach(() => {
-				var q = async.queue(function (doc, callback) {
-
-					let myquery = { "_id": ObjectId(doc._id) };
-					var menu1 =
-					{
-						entree: entrees(),
-						plat: plats(),
-						dessert: desserts()
-					};
-					let newvalues = { $set: { menu: menu1 } };
-
-
-					//on va update les valeurs
-					db.collection("restaurants")
-						.updateOne(myquery, newvalues, function (err, result) {
-							if (!err) {
-
-							} else {
-								console.log(err);
-
-							}
-						});
-
-					var cursor = db.collection("restaurants").find();
-					cursor.each(function (err, doc) {
-						if (err) throw err;
-						if (doc) q.push(doc); // dispatching doc to async.queue
-					});
-
-					q.drain = function () {
-						if (cursor.isClosed()) {
-							console.log('all items have been processed');
-							db.close();
-						}
-					}
-
-				}
-				)
-			});
-		} else {
-			let reponse = reponse = {
-				succes: false,
-				error: err,
-				msg: "Problème lors de la modification, erreur de connexion."
-			};
-			callback(reponse);
-		}
-	});
-}
-
 
 //je recupere tout les ids mais seulement les ids des restaurants et je rajoute dans le menu dans la collection menu 
 //avec un champ idRestaurant.
@@ -371,12 +309,6 @@ exports.AddMenuToRestaurant = function (callback) {
 
 	MongoClient.connect(url, async function (err, client) {
 		var db = client.db(dbName);
-		var menu1 =
-		{
-			entree: entrees(),
-			plat: plats(),
-			dessert: desserts()
-		};
 
 
 		if (!err) {
@@ -675,6 +607,120 @@ exports.findReservationByRestaurantId = function (id, callback) {
 							menu: null,
 							error: err,
 							msg: "erreur lors du find des reservations"
+
+						};
+					}
+					callback(reponse);
+				});
+		} else {
+			let reponse = reponse = {
+				succes: false,
+				restaurant: null,
+				error: err,
+				msg: "erreur de connexion à la base"
+			};
+			callback(reponse);
+		}
+	});
+}
+
+
+//je recupere tout les ids mais seulement les ids des restaurants et je rajoute dans le numéro de la photo dans la collection media 
+//avec un champ idRestaurant.
+
+exports.AddMediaToRestaurant = function (callback) {
+
+
+	MongoClient.connect(url, async function (err, client) {
+		var db = client.db(dbName);
+
+		if (!err) {
+
+			const restaurantsID = await db.collection("restaurants").find({}, { _id: 1 });
+			//pour chaque restaurant dans le find du dessus 
+			//on recupere restau qui est le restaurant a update
+			restaurantsID.forEach((restau) => {
+				var document =
+				{
+					numeroPhoto: Math.floor(Math.random() * Math.floor(11)),
+					restaurantID: restau._id
+				};
+
+				db.collection("media").insertOne(document).catch(() => {
+					//le catch n'est la que pour ne pas afficher l'erreur quand quelqu'un essaie d'insèrer plusieurs fois les
+					// données dans la collections /!\ attention les opérations en cours (moins de 5sec) ne sont pas terminés
+				});
+			}).then(() => {
+				//si c'est une réussite on créer un index qui doit être unique merci le cours de M. Mopolo *hehehe* -> rire de M. Mopolo
+				db.collection("media").createIndex({ restaurantID: 1 }, { unique: true }).then(() => {
+					console.log("index restaurantID ajouté avec succès à la collection media");
+					//variable pour le callback
+					reponse = {
+						succes: true,
+						error: null,
+						msg: "Ajout des medias réussis!"
+					};
+					callback(reponse);
+				});
+				console.log("fin de l'ajout des medias !");
+			}).catch((err) => {
+				console.log("Erreur lors de la fin de l'ajout des medias");
+				reponse = {
+					succes: false,
+					restaurant: null,
+					error: err,
+					msg: "erreur lors de l'ajout des medias"
+				}
+				callback(reponse);
+			});
+
+
+		}
+		//si on ne recupere pas la base
+		else {
+			reponse = {
+				succes: false,
+				restaurant: null,
+				error: err,
+				msg: "erreur lors de la récupération de la base"
+			}
+			callback(reponse);
+		}
+	});
+
+}
+
+
+//methode pour récuperer les medias en fonction de l'id du restaurant
+//ATTENTION /!\ un restaurant ne peut avoir qu'un seul document media contrainte d'unicité via l'index restaurantID
+exports.findMediaByRestaurantId = function (id, callback) {
+	MongoClient.connect(url,{
+   		useNewUrlParser: true,
+   		useUnifiedTopology: true
+ 	}, function (err, client) {
+		var db = client.db(dbName);
+		if (!err) {
+			// La requete mongoDB
+
+			let myquery = { "restaurantID": ObjectId(id) };
+
+			db.collection("media")
+				.findOne(myquery, function (err, data) {
+					let reponse;
+
+					if (!err) {
+						reponse = {
+							succes: true,
+							media: data,
+							error: null,
+							msg: "Details des medias du restaurant envoyés"
+						};
+					} else {
+						reponse = {
+							succes: false,
+							media: null,
+							error: err,
+							msg: "erreur lors du find du media"
 
 						};
 					}
