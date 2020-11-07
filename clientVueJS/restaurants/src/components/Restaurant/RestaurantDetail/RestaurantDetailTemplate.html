@@ -7,7 +7,7 @@
     <md-card v-if="restaurant">
         <md-card-area md-inset>
             <md-card-media>
-                <img src="./../../../assets/accosato.jpg" alt="Restaurant" id="imageRestaurantCard">
+                <img :src="imageRes" alt="Restaurant" id="imageRestaurantCard">
             </md-card-media>
             <md-card-header>
                 <h2 class="md-title">{{restaurant.name}}</h2>
@@ -47,21 +47,13 @@
             
             </md-tab>
             <md-tab id="tab-reserver" md-label="Reserver en ligne" md-icon="food_bank">
-                <h3 class="md-subheading">Reservation Disponible: </h3>
-                <div class="card-reservation">
-                    <md-icon>access_time</md-icon>
-                    <div class="md-button-group">
-                        <md-button>12:30</md-button>
-                        <md-button>19:30</md-button>
-                        <md-button>20:00</md-button>
-                    </div>
-                </div>
+                <RestaurantReserver  :idRestaurant="id"></RestaurantReserver>
             </md-tab>
         </md-tabs>
         </md-card-content>
 
         <md-card-actions>
-            <md-button class="md-primary">Reserver</md-button>
+            <!-- <md-button class="md-primary">Reserver</md-button> -->
         </md-card-actions>
     </md-card>
 

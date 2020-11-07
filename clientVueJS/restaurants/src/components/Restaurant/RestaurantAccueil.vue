@@ -33,6 +33,7 @@ export default {
       modificationReussi: false,
       modificationTemplate: false,
       valueRecherche: "",
+
     };
   },
   mounted () {
@@ -97,6 +98,9 @@ export default {
         });
     },
     modifierRestaurant(e) {
+      this.nameValide = this.restaurantModif.name.length > 2 ? true : false;
+      this.cuisineValide = this.restaurantModif.cuisine.length > 2 ? true : false;
+      if (this.nameValide == true && this.cuisineValide == true) {
       this.modificationTemplate = false;
       //on recupere le form
       let form = e.target;
@@ -123,6 +127,7 @@ export default {
             "Une erreur est survenue lors de la modification du restaurant"
           );
         });
+      }
     },
     afficherModif(restaurantMod) {
       this.restaurantModif = restaurantMod;

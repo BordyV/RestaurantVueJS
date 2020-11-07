@@ -1,0 +1,51 @@
+<div id="RestaurantReserver">
+    <h3 class="md-subheading">
+        <md-icon>access_time</md-icon> Reservation Disponible: </h3>
+    <div class="card-reservation">
+        <div class="md-button-group">
+            <md-button id="12:00" class="btnHeureReservation" @click="selectionnerHeure('12:00')">12:00</md-button>
+            <md-button id="12:30" class="btnHeureReservation" @click="selectionnerHeure('12:30')">12:30</md-button>
+            <md-button id="13:00" class="btnHeureReservation" @click="selectionnerHeure('13:00')">13:00</md-button>
+            <md-button id="13:30" class="btnHeureReservation" @click="selectionnerHeure('13:30')">13:30</md-button>
+
+            <md-button id="19:00" class="btnHeureReservation" @click="selectionnerHeure('19:00')">19:00</md-button>
+            <md-button id="19:30" class="btnHeureReservation" @click="selectionnerHeure('19:30')">19:30</md-button>
+            <md-button id="20:00" class="btnHeureReservation" @click="selectionnerHeure('20:00')">20:00</md-button>
+            <md-button id="20:30" class="btnHeureReservation" @click="selectionnerHeure('20:30')">20:30</md-button>
+            <md-button id="21:00" class="btnHeureReservation" @click="selectionnerHeure('21:00')">21:00</md-button>
+        </div>
+    </div>
+    <md-button class="md-raised md-primary" @click="reserverHeure()">Reserver</md-button>
+
+
+
+
+
+ <!--DEBUT Boite de dialog lors de la reservation d'un creneau-->
+ <template>
+    <div>
+
+        <md-dialog :md-active.sync="ajoutResTemplate" id="ajoutResTemplate">
+            <md-dialog-title>Nom de reservation</md-dialog-title>
+            <form @submit.prevent="ajouterReservation()">
+                <md-dialog-content>
+                    <p>Juste une derniere<strong> petite etape</strong> avant la reservation !</p>
+                    <md-field :class="{ 'md-invalid': !nameValidation }" class="md-layout-item">
+                        <label>Nom de table</label>
+                        <md-input name="nameReservation" id="nameReservation" v-model="nameReservation" required>
+                        </md-input>
+                        <span class="md-error">Le nom n'est pas valide il doit être supérieur à 2 caractères</span>
+                    </md-field>
+                </md-dialog-content>
+                <md-dialog-actions>
+                    <md-button class="md-primary" @click="ajoutResTemplate = false">Annuler</md-button>
+                    <md-button class="md-primary" type="submit">Reserver</md-button>
+                </md-dialog-actions>
+            </form>
+        </md-dialog>
+
+    </div>
+</template>
+<!--FINBoite de dialog lors de la reservation d'un creneau-->
+
+</div>

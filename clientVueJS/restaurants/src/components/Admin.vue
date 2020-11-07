@@ -14,8 +14,8 @@
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/sunburst.min.css"
     />
 
-    <h1>Ajouter les menus à la base de données:</h1>
-    <p><strong>/!\ Attention /!\ </strong>Pour ajouter les menus à la base il faut avoir :
+    <h1>Ajouter les menus et les medias à la base de données:</h1>
+    <p><strong>/!\ Attention /!\ </strong>Pour ajouter les menus et les medias à la base il faut avoir :
       <ul>
         <li>Avoir installer le projet. ( Voir plus bas ) </li>
         <li>Avoir importé la base de données initiale displonible <a href="https://raw.githubusercontent.com/mongodb/docs-assets/primer-dataset/primer-dataset.json">ici</a> (mongodb).</li>
@@ -30,6 +30,11 @@
       class="md-dense md-raised md-primary"
       @click.native="addMenuToRestaurant()"
       >ajouter les menus</md-button
+    >
+    <md-button
+      class="md-dense md-raised md-primary"
+      @click.native="addMediasToRestaurant()"
+      >ajouter les medias</md-button
     >
     Cette opération ne durera que <strong>quelques secondes.</strong> <br />
     Pour exemple elle n'a duré que 7 secondes pour 25359 restaurants avec mon
@@ -85,6 +90,18 @@
       </div>
     </template>
     <!--FIN Boite de dialog lors de la suppression d'un restaurant-->
+
+    <!--DEBUT Boite de dialog lors du succes de l'ajout des medias-->
+    <template id="templateMedia">
+      <div>
+        <md-dialog-alert
+          :md-active.sync="ajoutMediaReussi"
+          md-title="Félicitation !"
+          md-content="Tout les medias des restaurants ont biens étés ajoutés à la base de données."
+        />
+      </div>
+    </template>
+    <!--FIN Boite de dialog lors de la suppression d'un restaurant-->
   </div>
 </template>
 
@@ -95,6 +112,7 @@ export default {
   data: () => {
     return {
       ajoutRestaurantReussi: false,
+      ajoutMediaReussi: false,
       showProgressSpinner: false,
     };
   },
@@ -110,6 +128,24 @@ export default {
           if (responsePost.status == 200) {
             console.log(responsePost);
             this.ajoutRestaurantReussi = true;
+          }
+        })
+        .catch((err) => {
+          this.cacherLeSpinner();
+          console.error(err);
+        });
+    },
+    addMediasToRestaurant() {
+      this.afficherLeSpinner();
+      fetch("http://localhost:80/api/restaurantsMedia/", {
+        method: "put",
+      })
+        .then((responsePost) => {
+          this.cacherLeSpinner();
+          console.log(responsePost.status);
+          if (responsePost.status == 200) {
+            console.log(responsePost);
+            this.ajoutMediaReussi = true;
           }
         })
         .catch((err) => {

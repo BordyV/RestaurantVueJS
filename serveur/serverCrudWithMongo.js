@@ -175,11 +175,63 @@ app.put('/api/restaurantsMenu/', function(req, res) {
  	});
 });
 
+// Modification d'un restaurant, ajout des medias. on fera l'update par
+// une requête http PUT, c'est le standard REST
+app.put('/api/restaurantsMedia/', function(req, res) {
+
+	mongoDBModule.AddMediaToRestaurant(function(data) {
+		res.send(JSON.stringify(data)); 
+	});
+});
+
 // Récupération d'un seul restaurant par son id
 app.get('/api/restaurants/menu/:id', function(req, res) {
 	var id = req.params.id;
 
  	mongoDBModule.findMenuByRestaurantId(id, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+ 
+});
+// Récupération d'un seul restaurant par son id
+app.get('/api/restaurants/media/:id', function(req, res) {
+	var id = req.params.id;
+
+ 	mongoDBModule.findMediaByRestaurantId(id, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+ 
+});
+
+// Creation d'une commande par envoi d'un formulaire
+// On fera l'insert par un POST, c'est le standard REST
+app.post('/api/commmander', multerData.fields([]), function(req, res) {
+	// On supposera qu'on ajoutera une commande en 
+	// donnant beaucoup d'informations.
+	// les params sont dans req.body même si le formulaire
+	// est envoyé en multipart
+ 	mongoDBModule.createCommande(req.body, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+});
+
+// Creation d'une reservation par envoi d'un formulaire
+// On fera l'insert par un POST, c'est le standard REST
+app.post('/api/reserver', multerData.fields([]), function(req, res) {
+	// On supposera qu'on ajoutera un restaurant en 
+	// donnant l'heure et le nom de la reservation et le restaurant_ID.
+	// les params sont dans req.body même si le formulaire
+	// est envoyé en multipart
+ 	mongoDBModule.createReservation(req.body, function(data) {
+ 		res.send(JSON.stringify(data)); 
+ 	});
+});
+
+// Récupération d'un seul restaurant par son id
+app.get('/api/restaurants/reservation/:id', function(req, res) {
+	var id = req.params.id;
+
+ 	mongoDBModule.findReservationByRestaurantId(id, function(data) {
  		res.send(JSON.stringify(data)); 
  	});
  

@@ -13,7 +13,13 @@ export default {
   components: {
     CarteMenu,
   },
-
+  filters: {
+    capitalize: function (value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+  },
   data: () => {
     return {
       active: "first",
@@ -21,34 +27,95 @@ export default {
       second: false,
       third: false,
 
-      errorNoData: undefined,
+      errorAucunChoixMenu: undefined,
+      errorMailForm: undefined,
       nomCommande: undefined,
       prenomCommande: undefined,
       mailCommande: undefined,
+      adresseCommande: undefined,
       messsageCommande: undefined,
       entreeCommande: [],
       platCommande: [],
       dessertCommande: [],
+      CommandeTotal: [],
       afficherMenuComponent: false,
+      showSnackbarCommande: false
     };
   },
   mounted() {},
   methods: {
     ValiderCommande() {
-        console.log(this.nomCommande);
-        console.log(this.prenomCommande);
-        console.log(this.mailCommande);
-        console.log(this.messsageCommande);
-        console.log(this.entreeCommande);
-        console.log(this.platCommande);
-        console.log(this.dessertCommande);
+      //on formate le message 
+      this.messsageCommande = this.messsageCommande == undefined ? "" : this.messsageCommande;
+
+      let donneesFormulaire = new FormData();
+      donneesFormulaire.append('idRestaurant', this.idRestaurant);
+      donneesFormulaire.append('nomClient', this.nomCommande);
+      donneesFormulaire.append('prenomClient', this.prenomCommande);
+      donneesFormulaire.append('addresseClient', this.adresseCommande);
+      donneesFormulaire.append('mailClient', this.mailCommande);
+      donneesFormulaire.append('messageClient', this.messsageCommande);
+      donneesFormulaire.append('entrees', JSON.stringify(this.entreeCommande));
+      donneesFormulaire.append('plats', JSON.stringify(this.platCommande));
+      donneesFormulaire.append('desserts', JSON.stringify(this.dessertCommande));
+      donneesFormulaire.append('totalPrix', this.calculerTotal());
+
+
+        fetch("http://localhost:80/api/commmander", {
+          method: "post",
+          body: donneesFormulaire,
+        })
+          .then((responsePost) => {
+            console.log(responsePost.status);
+            if (responsePost.status == 200) {
+              this.afficherMenuComponent = false;
+              this.showSnackbarCommande = true;
+              //on remet les datas du menu a null
+              this.entreeCommande = [];
+              this.platCommande = [];
+              this.dessertCommande = [];
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Une erreur est survenue lors de l'ajout des données");
+          });
         
     },
+    //permet de changer de page dans le stepper
     setDone(id, index) {
       this[id] = true;
+      this.errorAucunChoixMenu = undefined;
+      this.errorMailForm = undefined;
 
+      //si quand on part de la premiere page aucun des 3 tableaux n'a une case de selectionné alors nous ne passons pas à la page suivante
+      //et nous déclarons une erreur.
+      if (id =="first") {
+        if(this.entreeCommande.length == 0 && this.platCommande.length == 0 && this.dessertCommande == 0)
+        {
+          this.errorAucunChoixMenu = "Veuillez au moins choisir un hors d'oeuvre, un plat ou un dessert !";
+          return false;
+        }
+      }
+      //si quand on part de la seconde page le mail n'est aps valide on reste dessus et on affiche un message d'erreur
+      if (id =="second") {
+        if(!this.validerEmail(this.mailCommande))
+        {
+          this.errorMailForm ="Veuillez saisir un mail valide."
+          return false;
+        }
+      }
       if (index) {
         this.active = index;
+      }
+
+      //si on arrive sur la 3eme page on remplit le tableau CommandeTotal pour avoir tout les plats.
+      if (index =="third") {
+        this.CommandeTotal = [];
+        Array.prototype.push.apply(this.CommandeTotal,this.entreeCommande);
+        Array.prototype.push.apply(this.CommandeTotal,this.platCommande);
+        Array.prototype.push.apply(this.CommandeTotal,this.dessertCommande);
+
       }
     },
     updateEntreeCommande(lesEntrees) {
@@ -69,6 +136,25 @@ export default {
         this.dessertCommande.push(dessert);
       }
     },
+    //permet de valider l'email passer en parametre
+    validerEmail(email) 
+    {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    },
+    //permet de calculer le total de la commande
+    calculerTotal() 
+    {
+      let total = 0 ;
+      for(const plat of this.CommandeTotal)
+      {
+        let prix = plat.prix.replace('€','');
+        prix = prix.replace(',','.');
+        total += Number(prix);
+        
+      }
+      return total.toFixed(2);
+    }
   },
 };
 </script>
