@@ -11,7 +11,7 @@ Le projet possède certains points remarquables comme l'envoi de mail pour confi
 - Modification du nom ou de la cuisine d'un restaurant.
 - Suppression d'un restaurant.
 
-**Les données seront à importer dans la page/panel Admin du projet** Cette page est la juste pour importer les données.
+**Les données seront à importer dans la page/panel Admin du projet**. Cette page est la juste pour importer les données.
 
 ## Installation du projet
 Pour installer le projet faire un clone de ce dernier ou le télécharger.
