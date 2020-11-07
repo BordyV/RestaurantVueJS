@@ -1,6 +1,6 @@
 # RestaurantVueJS
 
-## Point remarquable du projet
+## Point remarquables du projet
 Le projet possède certains points remarquables comme l'envoi de mail pour confirmer une commande, l'ajout à la base de données pour chaque restaurants d'une carte (menu), de medias (image).
 - Système de commande avec formulaire de façon persistence et envoi de mail avec un recapitulatif de la commande.
 - Système de reservation en ligne de façon persistence.
