@@ -1,5 +1,16 @@
 # RestaurantVueJS
 
+## Point remarquable du projet
+Le projet possède certains points remarquables comme l'envoi de mail pour confirmer une commande, l'ajout à la base de données pour chaque restaurants d'une carte (menu), de medias (image).
+- Système de commande avec formulaire de façon persistence et envoi de mail avec un recapitulatif de la commande.
+- Système de reservation en ligne de façon persistence.
+- Ajout des menus via un panel Admin de façon persistence.
+- Ajout des medias via un panel Admin de façon persistence. (l'image n'est pas ajouté à la base de données mais juste l'id de cette dernière).
+- Détail d'un restaurant avec la note, l'emplacement du restaurant avec une carte, carte/menu du restaurant et l'image.
+- Ajout d'un restaurant.
+- Modification du nom ou de la cuisine d'un restaurant.
+- Suppression d'un restaurant.
+
 ## Installation du projet
 Pour installer le projet faire un clone de ce dernier ou le télécharger.
 une fois ceci fait il faut se rendre dans le dossier du projet.
