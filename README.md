@@ -60,4 +60,4 @@ http://localhost:8080/admin
 en fonction de ou se lance votre projet ( quel port ) a voir dans le terminal dédié au client vueJS.
 ![](https://cdn.discordapp.com/attachments/774685916148531242/774685931629707304/unknown.png)
 
-Une fois arrivé sur cette page ( Admin ) il faudra vérifier que le serveur node est toujours lancé, puis cliquez sur le bouton **"Ajouter les menus"** et dans un second temps **"Ajouter les medias"**.
+Une fois arrivé sur cette page ( Admin ) il faudra vérifier que le serveur node est toujours lancé, puis cliquez sur le bouton **"Ajouter les menus"** et dans un second temps sur le bouton **"Ajouter les medias"**.
