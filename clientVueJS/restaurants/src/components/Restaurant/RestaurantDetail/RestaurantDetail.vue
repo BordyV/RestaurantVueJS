@@ -65,7 +65,7 @@ export default {
   methods: {
     getRestaurantsFromServerById(id, callback) {
       this.afficherLeSpinner();
-      var url = "http://localhost:80/api/restaurants/" + id;
+      var url = "https://valentinbordy.fr/restaurants/api/restaurants/" + id;
       fetch(url)
         .then((response) => {
           response.json().then((data) => {
@@ -84,7 +84,7 @@ export default {
     },
     getMediaFromServerByIdRestaurant(id, callback) {
       this.afficherLeSpinner();
-      var url = "http://localhost:80/api/restaurants/media/" + id;
+      var url = "https://valentinbordy.fr/restaurants/api/restaurants/media/" + id;
       fetch(url)
         .then((response) => {
           response.json().then((data) => {

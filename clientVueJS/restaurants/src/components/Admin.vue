@@ -119,7 +119,7 @@ export default {
   methods: {
     addMenuToRestaurant() {
       this.afficherLeSpinner();
-      fetch("http://localhost:80/api/restaurantsMenu/", {
+      fetch("https://valentinbordy.fr/restaurants/api/restaurantsMenu/", {
         method: "put",
       })
         .then((responsePost) => {
@@ -137,7 +137,7 @@ export default {
     },
     addMediasToRestaurant() {
       this.afficherLeSpinner();
-      fetch("http://localhost:80/api/restaurantsMedia/", {
+      fetch("https://valentinbordy.fr/restaurants/api/restaurantsMedia/", {
         method: "put",
       })
         .then((responsePost) => {

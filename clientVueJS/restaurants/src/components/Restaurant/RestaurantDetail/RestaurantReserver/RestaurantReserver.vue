@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     getReservationByRestaurantId(id) {
-      var url = "http://localhost:80/api/restaurants/reservation/" + id;
+      var url = "https://valentinbordy.fr/restaurants/api/restaurants/reservation/" + id;
       fetch(url)
         .then((response) => {
           response.json().then((data) => {
@@ -64,7 +64,7 @@ export default {
         donneesFormulaire.append('heureReservation', this.heureReservation);
 
         //envoie fetch
-        fetch("http://localhost:80/api/reserver", {
+        fetch("https://valentinbordy.fr/restaurants/api/reserver", {
           method: "post",
           body: donneesFormulaire,
         })

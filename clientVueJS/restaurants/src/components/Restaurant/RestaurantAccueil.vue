@@ -49,7 +49,7 @@ export default {
     getRestaurantsFromServer(pagination, pageSize, name, callback) {
       this.afficherLeSpinner();
       var url =
-        "http://localhost:80/api/restaurants?page=" +
+        "https://valentinbordy.fr/restaurants/api/restaurants?page=" +
         pagination +
         "&pagesize=" +
         pageSize +
@@ -76,7 +76,7 @@ export default {
     supprimerRestaurant(idrest) {
       console.log(idrest);
       this.afficherLeSpinner();
-      fetch("http://localhost:80/api/restaurants/" + idrest, {
+      fetch("https://valentinbordy.fr/restaurants/api/restaurants/" + idrest, {
         method: "delete",
       })
         .then((responsePost) => {
@@ -108,7 +108,7 @@ export default {
       // en prévision d'un envoi multipart en ajax/fetch
       let donneesFormulaire = new FormData(form);
       //envoie fetch
-      fetch("http://localhost:80/api/restaurants/" + this.restaurantModif._id, {
+      fetch("https://valentinbordy.fr/restaurants/api/restaurants/" + this.restaurantModif._id, {
         method: "put",
         body: donneesFormulaire,
       })

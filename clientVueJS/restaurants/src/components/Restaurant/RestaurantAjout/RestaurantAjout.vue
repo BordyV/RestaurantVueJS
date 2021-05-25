@@ -31,7 +31,7 @@ export default {
         let donneesFormulaire = new FormData(form);
 
         //envoie fetch
-        fetch("http://localhost:80/api/restaurants", {
+        fetch("https://valentinbordy.fr/restaurants/api/restaurants", {
           method: "post",
           body: donneesFormulaire,
         })

@@ -61,7 +61,7 @@ export default {
       donneesFormulaire.append('totalPrix', this.calculerTotal());
 
 
-        fetch("http://localhost:80/api/commmander", {
+        fetch("https://valentinbordy.fr/restaurants/api/commmander", {
           method: "post",
           body: donneesFormulaire,
         })

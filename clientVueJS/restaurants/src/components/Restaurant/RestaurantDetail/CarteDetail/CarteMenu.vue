@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     getMenusByRestaurantId(id) {
-      var url = "http://localhost:80/api/restaurants/menu/" + id;
+      var url = "https://valentinbordy.fr/restaurants/api/restaurants/menu/" + id;
       fetch(url)
         .then((response) => {
           response.json().then((data) => {

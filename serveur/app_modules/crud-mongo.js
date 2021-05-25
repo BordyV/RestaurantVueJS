@@ -437,7 +437,7 @@ exports.createCommande = function (dataCommande, callback) {
 					pass: motDePasse
 				}
 				});
-				console.log(dataCommande.messageClient);
+
 				//si le message est null
 				let messageClientAEnvoyer = !dataCommande.messageClient ? "<em>Aucun message</em>" : dataCommande.messageClient; 
 
